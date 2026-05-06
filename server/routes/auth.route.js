@@ -39,4 +39,15 @@ router.post('/register', registerValidation, register);
 // POST /api/auth/login
 router.post('/login', loginValidation, login);
 
+
+const authMiddleware = require('../middlewares/auth.middleware');
+
+// GET /api/auth/me — route protégée (test middleware)
+router.get('/me', authMiddleware, (req, res) => {
+    res.json({
+        message: 'Token valide',
+        user: req.user
+    });
+});
+
 module.exports = router;
