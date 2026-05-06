@@ -1,0 +1,33 @@
+const express = require('express');
+const router = express.Router();
+const { register } = require('../controllers/auth.controller');
+const { body } = require('express-validator');
+
+// Règles de validation pour l'inscription
+const registerValidation = [
+    body('nom')
+        .notEmpty().withMessage('Le nom est obligatoire')
+        .isLength({ min: 2 }).withMessage('Le nom doit faire au moins 2 caractères'),
+
+    body('prenom')
+        .notEmpty().withMessage('Le prénom est obligatoire')
+        .isLength({ min: 2 }).withMessage('Le prénom doit faire au moins 2 caractères'),
+
+    body('email')
+        .notEmpty().withMessage("L'email est obligatoire")
+        .isEmail().withMessage("Format d'email invalide")
+        .normalizeEmail(),
+
+    body('password')
+        .notEmpty().withMessage('Le mot de passe est obligatoire')
+        .isLength({ min: 8 }).withMessage('Le mot de passe doit faire au moins 8 caractères'),
+
+    body('role')
+        .notEmpty().withMessage('Le rôle est obligatoire')
+        .isIn(['etranger', 'resident']).withMessage('Le rôle doit être etranger ou resident'),
+];
+
+// POST /api/auth/register
+router.post('/register', registerValidation, register);
+
+module.exports = router;
