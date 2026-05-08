@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
 
         if (!authHeader) {
         return res.status(401).json({
-            message: 'Accès refusé — token manquant'
+            message: 'Accès refusé - token manquant'
         });
         }
 
@@ -17,7 +17,7 @@ const authMiddleware = (req, res, next) => {
 
         if (!token) {
         return res.status(401).json({
-            message: 'Accès refusé — format token invalide'
+            message: 'Accès refusé - format token invalide'
         });
         }
 

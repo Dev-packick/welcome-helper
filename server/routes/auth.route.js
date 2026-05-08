@@ -42,7 +42,7 @@ router.post('/login', loginValidation, login);
 
 const authMiddleware = require('../middlewares/auth.middleware');
 
-// GET /api/auth/me — route protégée (test middleware)
+// GET /api/auth/me - route protégée (test middleware)
 router.get('/me', authMiddleware, (req, res) => {
     res.json({
         message: 'Token valide',
