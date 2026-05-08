@@ -28,7 +28,8 @@ const getProfil = async (req, res) => {
         console.error('Erreur getProfil:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
+
 
     // PUT modifier son propre profil
     const updateProfil = async (req, res) => {
@@ -64,7 +65,8 @@ const getProfil = async (req, res) => {
         console.error('Erreur updateProfil:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
+
 
     // GET mon propre profil (via token JWT)
     const getMonProfil = async (req, res) => {
@@ -90,4 +92,32 @@ const getProfil = async (req, res) => {
     }
 };
 
-module.exports = { getProfil, updateProfil, getMonProfil };
+
+// POST upload avatar
+const uploadAvatar = async (req, res) => {
+    try {
+        if (!req.file) {
+        return res.status(400).json({ message: 'Aucun fichier envoyé' });
+        }
+
+        // Construire l'URL accessible depuis le frontend
+        const avatarUrl = `/uploads/${req.file.filename}`;
+
+        // Mettre à jour avatar_url dans la table profil
+        await pool.query(
+        `UPDATE profil SET avatar_url = $1 WHERE id_user = $2`,
+        [avatarUrl, req.user.user_id]
+        );
+
+        res.status(200).json({
+        message: 'Avatar mis à jour avec succès',
+        avatar_url: avatarUrl
+        });
+
+    } catch (error) {
+        console.error('Erreur uploadAvatar:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+};
+
+module.exports = { getProfil, updateProfil, getMonProfil, uploadAvatar };

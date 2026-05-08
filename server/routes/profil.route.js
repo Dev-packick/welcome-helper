@@ -1,11 +1,11 @@
+const { getProfil, updateProfil, getMonProfil, uploadAvatar } = require('../controllers/profil.controller');
 const express = require('express');
+
 const router = express.Router();
-const {
-    getProfil,
-    updateProfil,
-    getMonProfil
-    } = require('../controllers/profil.controller');
-    const authMiddleware = require('../middlewares/auth.middleware');
+
+const authMiddleware = require('../middlewares/auth.middleware');
+const upload = require('../middlewares/upload.middleware');
+
     const { body } = require('express-validator');
 
     // Validation pour la modification du profil
@@ -23,11 +23,11 @@ const {
 
 // GET /api/profil/me — mon profil (protégé)
 router.get('/me', authMiddleware, getMonProfil);
-
 // GET /api/profil/:id — profil public
 router.get('/:id', getProfil);
-
 // PUT /api/profil/:id — modifier son profil (protégé)
 router.put('/:id', authMiddleware, updateValidation, updateProfil);
+// POST /api/profil/avatar — upload avatar (protégé)
+router.post('/avatar', authMiddleware, upload.single('avatar'), uploadAvatar);
 
 module.exports = router;
