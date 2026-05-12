@@ -105,160 +105,116 @@ const Profil = () => {
 
     return (
         <div className="profil-container">
-        <Navbar />
+            <Navbar />
 
-        <main className="profil-main">
+            <main className="profil-main">
+                {/* ── CARTE PROFIL ── */}
+                <section className="profil-card">
+                    <div className="profil-card-left">
+                        <div className="profil-avatar">
+                            {profil?.avatar_url ? (
+                                <img src={`http://localhost:5000${profil.avatar_url}`} alt={`Avatar de ${profil.prenom}`} className="profil-avatar-img"/>
+                            ) : (
+                                <span className="profil-avatar-initials"> {getInitials(profil?.nom, profil?.prenom)} </span>
+                            )}
+                        </div>
+                        <div className="profil-info">
+                            <h1 className="profil-name">
+                                {profil?.prenom} {profil?.nom}
+                            </h1>
+                            <div className="profil-badges-row">
+                                <span className="profil-role-badge"> {profil?.role === 'etranger' ? 'Nouvel arrivant' : 'Helper'} </span>
+                                {profil?.is_certifie && (
+                                    <span className="profil-certifie-badge">✓ Certifié</span>
+                                )}
+                            </div>
+                            <div className="profil-details">
+                                <span className="profil-detail-item"> ✉ {profil?.email} </span>
+                                {profil?.pays_origine && (
+                                    <span className="profil-detail-item"> 📍 {profil?.pays_origine} </span>
+                                )}
+                                {profil?.universite && (
+                                    <span className="profil-detail-item"> 🎓 {profil?.universite} </span>
+                                )}
+                                <span className="profil-detail-item"> 📅 Membre depuis {formatDate(profil?.created_at)} </span>
+                            </div>
+                            {profil?.bio && (
+                                <p className="profil-bio">{profil.bio}</p>
+                            )}
+                        </div>
+                    </div>
+                    <Link to="/profil/edit" className="profil-edit-btn"> ✏ Modifier </Link>
+                </section>
 
-            {/* ── CARTE PROFIL ── */}
-            <section className="profil-card">
-            <div className="profil-card-left">
-                <div className="profil-avatar">
-                {profil?.avatar_url ? (
-                    <img
-                    src={`http://localhost:5000${profil.avatar_url}`}
-                    alt={`Avatar de ${profil.prenom}`}
-                    className="profil-avatar-img"
-                    />
-                ) : (
-                    <span className="profil-avatar-initials">
-                    {getInitials(profil?.nom, profil?.prenom)}
-                    </span>
+                {/* ── STATS ── */}
+                <div className="profil-stats-grid">
+                    <div className="profil-stat-card">
+                        <span className="profil-stat-icon">⭐</span>
+                        <p className="profil-stat-value">{profil?.solde_points || 0}</p>
+                        <p className="profil-stat-label">Points totaux</p>
+                    </div>
+                    <div className="profil-stat-card">
+                        <span className="profil-stat-icon">🏆</span>
+                        <p className="profil-stat-value">3</p>
+                        <p className="profil-stat-label">Missions</p>
+                    </div>
+                    <div className="profil-stat-card">
+                        <span className="profil-stat-icon">🎖</span>
+                        <p className="profil-stat-value">1</p>
+                        <p className="profil-stat-label">Badges obtenus</p>
+                    </div>
+                </div>
+
+                {/* ── TABS ── */}
+                <div className="profil-tabs">
+                    <button className={activeTab === 'historique' ? 'profil-tab active' : 'profil-tab'} onClick={() => setActiveTab('historique')}>
+                        Historique
+                    </button>
+                    <button className={activeTab === 'badges' ? 'profil-tab active' : 'profil-tab'} onClick={() => setActiveTab('badges')}>
+                        Badges
+                    </button>
+                </div>
+
+                {/* ── HISTORIQUE ── */}
+                {activeTab === 'historique' && (
+                    <section className="profil-section">
+                        <h2 className="profil-section-title">Historique des activités</h2>
+                        <div className="profil-historique-list">
+                            {historique.map((h) => (
+                                <div key={h.id} className="profil-historique-item">
+                                    <div>
+                                        <p className="profil-historique-titre">{h.titre}</p>
+                                        <p className="profil-historique-meta"> Avec {h.avec} • {h.date}</p>
+                                    </div>
+                                    <div className="profil-historique-right">
+                                        <span className="profil-historique-points"> ⭐ {h.points}</span>
+                                        <span className="profil-historique-statut"> {h.statut}</span>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
                 )}
-                </div>
 
-                <div className="profil-info">
-                <h1 className="profil-name">
-                    {profil?.prenom} {profil?.nom}
-                </h1>
-                <div className="profil-badges-row">
-                    <span className="profil-role-badge">
-                    {profil?.role === 'etranger' ? 'Nouvel arrivant' : 'Helper'}
-                    </span>
-                    {profil?.is_certifie && (
-                    <span className="profil-certifie-badge">✓ Certifié</span>
-                    )}
-                </div>
-                <div className="profil-details">
-                    <span className="profil-detail-item">
-                    ✉ {profil?.email}
-                    </span>
-                    {profil?.pays_origine && (
-                    <span className="profil-detail-item">
-                        📍 {profil?.pays_origine}
-                    </span>
-                    )}
-                    {profil?.universite && (
-                    <span className="profil-detail-item">
-                        🎓 {profil?.universite}
-                    </span>
-                    )}
-                    <span className="profil-detail-item">
-                    📅 Membre depuis {formatDate(profil?.created_at)}
-                    </span>
-                </div>
-                {profil?.bio && (
-                    <p className="profil-bio">{profil.bio}</p>
+                {/* ── BADGES ── */}
+                {activeTab === 'badges' && (
+                    <section className="profil-section">
+                        <h2 className="profil-section-title">Badges et récompenses</h2>
+                        <div className="profil-badges-grid">
+                        {badges.map((b) => (
+                            <div key={b.id} className={b.obtenu ? 'profil-badge-card obtenu' : 'profil-badge-card'}>
+                                <div className="profil-badge-icon" style={{ background: b.obtenu ? b.couleur : '#1e293b' }}> 🎖 </div>
+                                <div>
+                                    <p className="profil-badge-nom">{b.nom}</p>
+                                    <p className="profil-badge-desc">{b.desc}</p>
+                                    {b.obtenu && ( <span className="profil-badge-obtenu">Obtenu</span>)}
+                                </div>
+                            </div>
+                        ))}
+                        </div>
+                    </section>
                 )}
-                </div>
-            </div>
-
-            <Link to="/profil/edit" className="profil-edit-btn">
-                ✏ Modifier
-            </Link>
-            </section>
-
-            {/* ── STATS ── */}
-            <div className="profil-stats-grid">
-            <div className="profil-stat-card">
-                <span className="profil-stat-icon">⭐</span>
-                <p className="profil-stat-value">{profil?.solde_points || 0}</p>
-                <p className="profil-stat-label">Points totaux</p>
-            </div>
-            <div className="profil-stat-card">
-                <span className="profil-stat-icon">🏆</span>
-                <p className="profil-stat-value">3</p>
-                <p className="profil-stat-label">Missions</p>
-            </div>
-            <div className="profil-stat-card">
-                <span className="profil-stat-icon">🎖</span>
-                <p className="profil-stat-value">1</p>
-                <p className="profil-stat-label">Badges obtenus</p>
-            </div>
-            </div>
-
-            {/* ── TABS ── */}
-            <div className="profil-tabs">
-            <button
-                className={activeTab === 'historique' ? 'profil-tab active' : 'profil-tab'}
-                onClick={() => setActiveTab('historique')}
-            >
-                Historique
-            </button>
-            <button
-                className={activeTab === 'badges' ? 'profil-tab active' : 'profil-tab'}
-                onClick={() => setActiveTab('badges')}
-            >
-                Badges
-            </button>
-            </div>
-
-            {/* ── HISTORIQUE ── */}
-            {activeTab === 'historique' && (
-            <section className="profil-section">
-                <h2 className="profil-section-title">Historique des activités</h2>
-                <div className="profil-historique-list">
-                {historique.map((h) => (
-                    <div key={h.id} className="profil-historique-item">
-                    <div>
-                        <p className="profil-historique-titre">{h.titre}</p>
-                        <p className="profil-historique-meta">
-                        Avec {h.avec} • {h.date}
-                        </p>
-                    </div>
-                    <div className="profil-historique-right">
-                        <span className="profil-historique-points">
-                        ⭐ {h.points}
-                        </span>
-                        <span className="profil-historique-statut">
-                        {h.statut}
-                        </span>
-                    </div>
-                    </div>
-                ))}
-                </div>
-            </section>
-            )}
-
-            {/* ── BADGES ── */}
-            {activeTab === 'badges' && (
-            <section className="profil-section">
-                <h2 className="profil-section-title">Badges et récompenses</h2>
-                <div className="profil-badges-grid">
-                {badges.map((b) => (
-                    <div
-                    key={b.id}
-                    className={b.obtenu ? 'profil-badge-card obtenu' : 'profil-badge-card'}
-                    >
-                    <div
-                        className="profil-badge-icon"
-                        style={{ background: b.obtenu ? b.couleur : '#1e293b' }}
-                    >
-                        🎖
-                    </div>
-                    <div>
-                        <p className="profil-badge-nom">{b.nom}</p>
-                        <p className="profil-badge-desc">{b.desc}</p>
-                        {b.obtenu && (
-                        <span className="profil-badge-obtenu">Obtenu</span>
-                        )}
-                    </div>
-                    </div>
-                ))}
-                </div>
-            </section>
-            )}
-
-        </main>
+            </main>
         </div>
     )
 }

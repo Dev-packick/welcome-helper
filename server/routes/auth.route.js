@@ -21,10 +21,10 @@ const registerValidation = [
     body('role')
         .notEmpty().withMessage('Le rôle est obligatoire')
         .isIn(['etranger', 'resident']).withMessage('Le rôle doit être etranger ou resident'),
-    ];
+];
 
-    // Règles de validation connexion
-    const loginValidation = [
+  // Règles de validation connexion
+const loginValidation = [
     body('email')
         .notEmpty().withMessage("L'email est obligatoire")
         .isEmail().withMessage("Format d'email invalide")

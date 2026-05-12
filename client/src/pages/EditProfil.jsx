@@ -118,158 +118,92 @@ const EditProfil = () => {
 
     return (
         <div className="profil-container">
-        <Navbar />
+            <Navbar />
 
-        <main className="edit-main">
-            <div className="edit-header">
-            <Link to="/profil" className="edit-retour">← Retour au profil</Link>
-            <h1 className="edit-title">Modifier mon profil</h1>
-            </div>
+            <main className="edit-main">
+                <div className="edit-header">
+                    <Link to="/profil" className="edit-retour">← Retour au profil</Link>
+                    <h1 className="edit-title">Modifier mon profil</h1>
+                </div>
 
-            <div className="edit-card">
-
-            {/* ── AVATAR ── */}
-            <div className="edit-avatar-section">
-                <div className="edit-avatar-wrapper">
-                {avatarPreview ? (
-                    <img
-                    src={avatarPreview}
-                    alt="Aperçu avatar"
-                    className="edit-avatar-img"
-                    />
-                ) : (
-                    <div className="edit-avatar-placeholder">
-                    {getInitials()}
+                <div className="edit-card">
+                    {/* ── AVATAR ── */}
+                    <div className="edit-avatar-section">
+                        <div className="edit-avatar-wrapper">
+                            {avatarPreview ? (
+                                <img src={avatarPreview} alt="Aperçu avatar" className="edit-avatar-img"/>
+                            ) : (
+                                <div className="edit-avatar-placeholder">
+                                    {getInitials()}
+                                </div>
+                            )}
+                            <button className="edit-avatar-btn" onClick={() => fileInputRef.current.click()} type="button" aria-label="Changer l'avatar">
+                                📷
+                            </button>
+                        </div>
+                        <input type="file" accept="image/jpeg,image/png,image/webp" ref={fileInputRef} onChange={handleAvatarChange} style={{ display: 'none' }}/>
+                        <p className="edit-avatar-hint">JPG, PNG ou WebP — max 2 Mo</p>
                     </div>
-                )}
-                <button
-                    className="edit-avatar-btn"
-                    onClick={() => fileInputRef.current.click()}
-                    type="button"
-                    aria-label="Changer l'avatar"
-                >
-                    📷
-                </button>
-                </div>
-                <input
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                ref={fileInputRef}
-                onChange={handleAvatarChange}
-                style={{ display: 'none' }}
-                />
-                <p className="edit-avatar-hint">
-                JPG, PNG ou WebP — max 2 Mo
-                </p>
-            </div>
 
-            {success && <div className="edit-success">{success}</div>}
-            {error && <div className="edit-error">{error}</div>}
+                    {success && <div className="edit-success">{success}</div>}
+                    {error && <div className="edit-error">{error}</div>}
 
-            {/* ── FORMULAIRE ── */}
-            <form onSubmit={handleSubmit} className="edit-form">
-                <div className="edit-form-row">
-                <div className="edit-field">
-                    <label className="edit-label">Prénom</label>
-                    <input
-                    type="text"
-                    name="prenom"
-                    value={formData.prenom}
-                    onChange={handleChange}
-                    className="edit-input"
-                    required
-                    />
-                </div>
-                <div className="edit-field">
-                    <label className="edit-label">Nom</label>
-                    <input
-                    type="text"
-                    name="nom"
-                    value={formData.nom}
-                    onChange={handleChange}
-                    className="edit-input"
-                    required
-                    />
-                </div>
-                </div>
+                    {/* ── FORMULAIRE ── */}
+                    <form onSubmit={handleSubmit} className="edit-form">
+                        <div className="edit-form-row">
+                            <div className="edit-field">
+                                <label className="edit-label">Prénom</label>
+                                <input type="text" name="prenom" value={formData.prenom} onChange={handleChange} className="edit-input" required/>
+                            </div>
+                            <div className="edit-field">
+                                <label className="edit-label">Nom</label>
+                                <input type="text" name="nom" value={formData.nom} onChange={handleChange} className="edit-input" required/>
+                            </div>
+                        </div>
 
-                <div className="edit-form-row">
-                <div className="edit-field">
-                    <label className="edit-label">Pays d'origine</label>
-                    <input
-                    type="text"
-                    name="pays_origine"
-                    value={formData.pays_origine}
-                    onChange={handleChange}
-                    className="edit-input"
-                    placeholder="Ex: Maroc"
-                    />
-                </div>
-                <div className="edit-field">
-                    <label className="edit-label">Université</label>
-                    <input
-                    type="text"
-                    name="universite"
-                    value={formData.universite}
-                    onChange={handleChange}
-                    className="edit-input"
-                    placeholder="Ex: Université Paris-Saclay"
-                    />
-                </div>
-                </div>
+                        <div className="edit-form-row">
+                            <div className="edit-field">
+                                <label className="edit-label">Pays d'origine</label>
+                                <input type="text" name="pays_origine" value={formData.pays_origine} onChange={handleChange} className="edit-input" placeholder="Ex: Maroc"/>
+                            </div>
+                            <div className="edit-field">
+                                <label className="edit-label">Université</label>
+                                <input type="text" name="universite" value={formData.universite} onChange={handleChange} className="edit-input" placeholder="Ex: Université Paris-Saclay"/>
+                            </div>
+                        </div>
 
-                <div className="edit-field">
-                <label className="edit-label">Langue</label>
-                <select
-                    name="langue"
-                    value={formData.langue}
-                    onChange={handleChange}
-                    className="edit-input"
-                >
-                    <option value="">Sélectionner une langue</option>
-                    <option value="fr">Français</option>
-                    <option value="en">Anglais</option>
-                    <option value="ar">Arabe</option>
-                    <option value="es">Espagnol</option>
-                    <option value="pt">Portugais</option>
-                    <option value="zh">Chinois</option>
-                </select>
-                </div>
+                        <div className="edit-field">
+                            <label className="edit-label">Langue</label>
+                            <select name="langue" value={formData.langue} onChange={handleChange} className="edit-input">
+                                <option value="">Sélectionner une langue</option>
+                                <option value="fr">Français</option>
+                                <option value="en">Anglais</option>
+                                <option value="ar">Arabe</option>
+                                <option value="es">Espagnol</option>
+                                <option value="pt">Portugais</option>
+                                <option value="zh">Chinois</option>
+                            </select>
+                        </div>
 
-                <div className="edit-field">
-                <label className="edit-label">
-                    Bio
-                    <span className="edit-label-hint">
-                    ({formData.bio.length}/500)
-                    </span>
-                </label>
-                <textarea
-                    name="bio"
-                    value={formData.bio}
-                    onChange={handleChange}
-                    className="edit-textarea"
-                    placeholder="Parlez-vous en quelques mots..."
-                    maxLength={500}
-                    rows={4}
-                />
-                </div>
+                        <div className="edit-field">
+                            <label className="edit-label">
+                                Bio
+                                <span className="edit-label-hint">
+                                ({formData.bio.length}/500)
+                                </span>
+                            </label>
+                            <textarea name="bio" value={formData.bio} onChange={handleChange} className="edit-textarea" placeholder="Parlez-vous en quelques mots..." maxLength={500} rows={4}/>
+                        </div>
 
-                <div className="edit-actions">
-                <Link to="/profil" className="edit-cancel-btn">
-                    Annuler
-                </Link>
-                <button
-                    type="submit"
-                    className={loading ? 'edit-save-btn-disabled' : 'edit-save-btn'}
-                    disabled={loading}
-                >
-                    {loading ? 'Sauvegarde...' : 'Sauvegarder les modifications'}
-                </button>
+                        <div className="edit-actions">
+                            <Link to="/profil" className="edit-cancel-btn">Annuler</Link>
+                            <button type="submit" className={loading ? 'edit-save-btn-disabled' : 'edit-save-btn'} disabled={loading}>
+                                {loading ? 'Sauvegarde...' : 'Sauvegarder les modifications'}
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
-
-            </div>
-        </main>
+            </main>
         </div>
     )
 }

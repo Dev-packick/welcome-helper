@@ -21,13 +21,13 @@ const Login = () => {
         setLoading(true)
         setError('')
         try {
-        const response = await axios.post('/api/auth/login', formData)
-        login(response.data.user, response.data.token)
-        navigate('/dashboard')
+            const response = await axios.post('/api/auth/login', formData)
+            login(response.data.user, response.data.token)
+            navigate('/dashboard')
         } catch (err) {
-        setError(err.response?.data?.message || 'Erreur de connexion')
+            setError(err.response?.data?.message || 'Erreur de connexion')
         } finally {
-        setLoading(false)
+            setLoading(false)
         }
     }
 

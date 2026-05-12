@@ -75,7 +75,6 @@ const Home = () => {
   }
 
   return (
-    
     <div className="home-container">
       <Navbar />
 
@@ -95,30 +94,17 @@ const Home = () => {
         </p>
 
         <div className="home-buttons">
-          <Link
-            to="/register"
-            className="home-btn-primary"
-            aria-label="Créer un compte gratuitement"
-          >
+          <Link to="/register" className="home-btn-primary" aria-label="Créer un compte gratuitement" >
             Commencer maintenant →
           </Link>
-          <Link
-            to="/login"
-            className="home-btn-secondary"
-            aria-label="Se connecter à votre compte"
-          >
+          <Link to="/login" className="home-btn-secondary" aria-label="Se connecter à votre compte" >
             Se connecter
           </Link>
         </div>
 
         {/* Image hero */}
         <div className="home-hero-img-wrapper">
-          <img
-            src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80"
-            alt="Étudiants collaborant ensemble sur le campus"
-            className="home-hero-img"
-            loading="eager"
-          />
+          <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=1200&q=80" alt="Étudiants collaborant ensemble sur le campus" className="home-hero-img" loading="eager"/>
           <div className="home-hero-img-overlay" aria-hidden="true">
             <div className="home-hero-img-badge">
               Communauté active
@@ -133,10 +119,7 @@ const Home = () => {
       </section>
 
       {/* ── STATS ── */}
-      <section
-        className="home-stats"
-        aria-label="Chiffres clés de WelcomeHelper"
-      >
+      <section className="home-stats" aria-label="Chiffres clés de WelcomeHelper">
         <div className="home-stat-item">
           <p className="home-stat-number">
             <Counter value={2847} />
@@ -164,11 +147,7 @@ const Home = () => {
       </section>
 
       {/* ── FEATURES ── */}
-      <section
-        className="home-features reveal"
-        ref={featuresRef}
-        aria-label="Fonctionnalités de WelcomeHelper"
-      >
+      <section className="home-features reveal" ref={featuresRef} aria-label="Fonctionnalités de WelcomeHelper">
         <h2 className="home-features-title">
           Pourquoi choisir WelcomeHelper ?
         </h2>
@@ -220,11 +199,7 @@ const Home = () => {
       </section>
 
       {/* ── GALERIE IMAGES ── */}
-      <section
-        className="home-gallery reveal"
-        ref={galleryRef}
-        aria-label="Photos de la communauté WelcomeHelper"
-      >
+      <section className="home-gallery reveal" ref={galleryRef} aria-label="Photos de la communauté WelcomeHelper">
         <h2 className="home-gallery-title">
           Ils vivent l'expérience WelcomeHelper
         </h2>
@@ -233,56 +208,31 @@ const Home = () => {
         </p>
         <div className="home-gallery-grid">
           <div className="home-gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80"
-              alt="Groupe d'étudiants internationaux se retrouvant à Paris"
-              className="home-gallery-img"
-              loading="lazy"
-            />
+            <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80" alt="Groupe d'étudiants internationaux se retrouvant à Paris" className="home-gallery-img" loading="lazy"/>
             <div className="home-gallery-overlay" aria-hidden="true">
               <span className="home-gallery-caption">Paris, France</span>
             </div>
           </div>
           <div className="home-gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80"
-              alt="Étudiante étrangère arrivant sur un campus universitaire français"
-              className="home-gallery-img"
-              loading="lazy"
-            />
+            <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=800&q=80" alt="Étudiante étrangère arrivant sur un campus universitaire français" className="home-gallery-img" loading="lazy"/>
             <div className="home-gallery-overlay" aria-hidden="true">
               <span className="home-gallery-caption">Campus universitaire</span>
             </div>
           </div>
           <div className="home-gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80"
-              alt="Deux étudiants travaillant ensemble sur un projet"
-              className="home-gallery-img"
-              loading="lazy"
-            />
+            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80" alt="Deux étudiants travaillant ensemble sur un projet" className="home-gallery-img" loading="lazy"/>
             <div className="home-gallery-overlay" aria-hidden="true">
               <span className="home-gallery-caption">Entraide entre pairs</span>
             </div>
           </div>
           <div className="home-gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1502209524164-acea936639a2?w=800&q=80"
-              alt="Tour Eiffel et monuments parisiens"
-              className="home-gallery-img"
-              loading="lazy"
-            />
+            <img src="https://images.unsplash.com/photo-1502209524164-acea936639a2?w=800&q=80" alt="Tour Eiffel et monuments parisiens" className="home-gallery-img" loading="lazy"/>
             <div className="home-gallery-overlay" aria-hidden="true">
               <span className="home-gallery-caption">Découvrez Paris</span>
             </div>
           </div>
           <div className="home-gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80"
-              alt="Étudiante souriante avec son ordinateur"
-              className="home-gallery-img"
-              loading="lazy"
-            />
+            <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?w=800&q=80" alt="Étudiante souriante avec son ordinateur" className="home-gallery-img" loading="lazy"/>
             <div className="home-gallery-overlay" aria-hidden="true">
               <span className="home-gallery-caption">Votre réussite, notre mission</span>
             </div>
@@ -291,11 +241,7 @@ const Home = () => {
       </section>
 
       {/* ── TÉMOIGNAGES ── */}
-      <section
-        className="home-testimonials reveal"
-        ref={testimonialsRef}
-        aria-label="Témoignages d'utilisateurs"
-      >
+      <section className="home-testimonials reveal" ref={testimonialsRef} aria-label="Témoignages d'utilisateurs">
         <h2 className="home-testimonials-title">Ce qu'ils en pensent</h2>
         <div className="home-testimonials-grid">
           {[
@@ -320,10 +266,7 @@ const Home = () => {
       </section>
 
       {/* ── CTA ── */}
-      <section
-        className="home-cta"
-        aria-label="Appel à rejoindre WelcomeHelper"
-      >
+      <section className="home-cta" aria-label="Appel à rejoindre WelcomeHelper">
         <h2 className="home-cta-title">
           Prêt à commencer votre aventure ?
         </h2>
@@ -331,11 +274,7 @@ const Home = () => {
           Rejoignez notre communauté d'étudiants solidaires dès aujourd'hui -
           c'est gratuit et sans engagement
         </p>
-        <Link
-          to="/register"
-          className="home-cta-btn"
-          aria-label="Créer un compte gratuitement"
-        >
+        <Link to="/register" className="home-cta-btn" aria-label="Créer un compte gratuitement">
           Créer mon compte gratuitement →
         </Link>
       </section>
@@ -364,32 +303,16 @@ const Home = () => {
 
       {/* ── COOKIE BANNER RGPD ── */}
       {cookieVisible && (
-        <div
-          className="cookie-banner"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Gestion des cookies"
-          aria-live="polite"
-        >
-          <p className="cookie-text">
-            🍪 Nous utilisons des cookies pour améliorer votre expérience et
-            analyser notre trafic. En continuant, vous acceptez notre{' '}
+        <div role="dialog" aria-modal="true" aria-label="Gestion des cookies" aria-live="polite">
+          <p className="cookie-text"> 🍪 Nous utilisons des cookies pour améliorer votre expérience et analyser notre trafic. En continuant, vous acceptez notre{' '}
             <Link to="/confidentialite">politique de confidentialité</Link>{' '}
             conformément au RGPD.
           </p>
           <div className="cookie-buttons">
-            <button
-              className="cookie-btn-refuse"
-              onClick={() => handleCookie(false)}
-              aria-label="Refuser les cookies non essentiels"
-            >
+            <button className="cookie-btn-refuse" onClick={() => handleCookie(false)} aria-label="Refuser les cookies non essentiels">
               Refuser
             </button>
-            <button
-              className="cookie-btn-accept"
-              onClick={() => handleCookie(true)}
-              aria-label="Accepter tous les cookies"
-            >
+            <button className="cookie-btn-accept" onClick={() => handleCookie(true)} aria-label="Accepter tous les cookies">
               Accepter
             </button>
           </div>
