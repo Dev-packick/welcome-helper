@@ -5,6 +5,9 @@ import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import Profil from './pages/Profil'
 import EditProfil from './pages/EditProfil'
+import Missions from './pages/Missions'
+import MissionDetail from './pages/MissionDetail'
+import PublierMission from './pages/PublierMission'
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/profil/edit" element={<EditProfil />} />
+        <Route path="/missions" element={<Missions />} />
+        <Route path="/missions/:id" element={<MissionDetail />} />
+        <Route path="/missions/publier" element={<PublierMission />} />
       </Routes>
     </BrowserRouter>
   )
