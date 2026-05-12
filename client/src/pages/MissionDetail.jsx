@@ -14,6 +14,9 @@ const MissionDetail = () => {
     const [error, setError] = useState('')
     const [terminating, setTerminating] = useState(false)
     const [success, setSuccess] = useState('')
+    const [evalData, setEvalData] = useState({ note: 0, commentaire: '' })
+    const [evalSubmitted, setEvalSubmitted] = useState(false)
+    const [evalLoading, setEvalLoading] = useState(false)
 
     useEffect(() => {
         fetchMission()
@@ -61,6 +64,24 @@ const MissionDetail = () => {
             setError(err.response?.data?.message || 'Erreur')
         } finally {
             setTerminating(false)
+        }
+    }
+
+    const handleEvaluation = async (e) => {
+        e.preventDefault()
+        if (evalData.note === 0) return
+        setEvalLoading(true)
+        try {
+            await axios.post('/api/evaluations',
+            { id_mission: parseInt(id), note: evalData.note, commentaire: evalData.commentaire },
+            { headers: { Authorization: `Bearer ${token}` } }
+            )
+            setEvalSubmitted(true)
+            setSuccess('Évaluation enregistrée avec succès !')
+        } catch (err) {
+            setError(err.response?.data?.message || 'Erreur lors de l\'évaluation')
+        } finally {
+            setEvalLoading(false)
         }
     }
 
@@ -130,6 +151,24 @@ const MissionDetail = () => {
                         <button className={terminating ? 'auth-btn-disabled' : 'auth-btn'} onClick={handleTerminer} disabled={terminating} style={{ width: '100%', background: 'linear-gradient(135deg, #22c55e, #16a34a)' }}>
                             {terminating ? 'Traitement...' : '✓ Marquer comme terminée'}
                         </button>
+                    )}
+
+                    {/* Formulaire évaluation */}
+                    {isOwner && mission.statut === 'terminee' && !evalSubmitted && (
+                    <div className="eval-form">
+                        <h3 className="eval-title">Évaluer le helper</h3>
+                        <form onSubmit={handleEvaluation}>
+                            <div className="eval-stars">
+                                {[1,2,3,4,5].map(star => (
+                                    <span key={star} className={evalData.note >= star ? 'eval-star active' : 'eval-star'} onClick={() => setEvalData({ ...evalData, note: star })} aria-label={`Note ${star}`} >⭐</span>
+                                ))}
+                            </div>
+                            <textarea value={evalData.commentaire} onChange={e => setEvalData({ ...evalData, commentaire: e.target.value })} className="edit-textarea" placeholder="Commentaire optionnel..." rows={3} maxLength={500} style={{ marginTop: '12px' }}/>
+                            <button type="submit" className={evalLoading || evalData.note === 0 ? 'auth-btn-disabled' : 'auth-btn'} disabled={evalLoading || evalData.note === 0} style={{ marginTop: '12px', width: '100%' }}>
+                                {evalLoading ? 'Envoi...' : 'Envoyer l\'évaluation'}
+                            </button>
+                        </form>
+                    </div>
                     )}
 
                     {isOwner && (
