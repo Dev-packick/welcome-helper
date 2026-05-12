@@ -8,6 +8,8 @@ import EditProfil from './pages/EditProfil'
 import Missions from './pages/Missions'
 import MissionDetail from './pages/MissionDetail'
 import PublierMission from './pages/PublierMission'
+import Messages from './pages/Messages'
+
 
 function App() {
   return (
@@ -22,6 +24,7 @@ function App() {
         <Route path="/missions" element={<Missions />} />
         <Route path="/missions/:id" element={<MissionDetail />} />
         <Route path="/missions/publier" element={<PublierMission />} />
+        <Route path="/messages" element={<Messages />} />
       </Routes>
     </BrowserRouter>
   )

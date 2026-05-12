@@ -5,6 +5,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth.route');
 const profilRoutes = require('./routes/profil.route');
 const missionRoutes = require('./routes/mission.route');
+const messageRoutes = require('./routes/message.route');
 const path = require('path');
 
 const app = express();
@@ -18,10 +19,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/profil', profilRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/missions', missionRoutes);
+app.use('/api/messages', messageRoutes);
 
 // Route de test
-app.get('/', (req, res) => {
-  res.json({ message: 'WelcomeHelper API fonctionne !' });
+app.get('/', (req, res) => {res.json({ message: 'WelcomeHelper API fonctionne !' });
 });
 
 app.listen(PORT, () => {
