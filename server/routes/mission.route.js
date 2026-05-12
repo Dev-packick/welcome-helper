@@ -6,7 +6,8 @@ const {
     getMissionById,
     updateMission,
     deleteMission,
-    accepterMission
+    accepterMission,
+    terminerMission
 } = require('../controllers/mission.controller');
 const authMiddleware = require('../middlewares/auth.middleware');
 const { body } = require('express-validator');
@@ -42,5 +43,8 @@ router.delete('/:id', authMiddleware, deleteMission);
 
 // POST /api/missions/:id/accepter — accepter une mission (protégé)
 router.post('/:id/accepter', authMiddleware, accepterMission);
+
+// POST /api/missions/:id/terminer — terminer une mission
+router.post('/:id/terminer', authMiddleware, terminerMission);
 
 module.exports = router;

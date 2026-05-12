@@ -268,11 +268,89 @@ const createMission = async (req, res) => {
         }
     };
 
+
+    // POST — Terminer une mission
+    const terminerMission = async (req, res) => {
+    const { id } = req.params;
+    const user_id = req.user.user_id;
+
+        try {
+            // Vérifier que la mission existe
+            const check = await pool.query(
+            'SELECT * FROM mission WHERE id_mission = $1',
+            [id]
+            );
+
+            if (check.rows.length === 0) {
+            return res.status(404).json({ message: 'Mission non trouvée' });
+            }
+
+            const mission = check.rows[0];
+
+            // Vérifier que c'est bien le publiant qui termine
+            if (mission.id_publiant !== user_id) {
+            return res.status(403).json({
+                message: 'Seul le créateur de la mission peut la terminer'
+            });
+            }
+
+            // Vérifier que la mission est en cours
+            if (mission.statut !== 'en_cours') {
+            return res.status(400).json({
+                message: 'La mission doit être en cours pour être terminée'
+            });
+            }
+
+            // Transaction SQL
+            await pool.query('BEGIN');
+
+            // 1 — Mettre à jour le statut de la mission
+            await pool.query(
+            `UPDATE mission SET statut = 'terminee' WHERE id_mission = $1`,
+            [id]
+            );
+
+            // 2 — Créer une entrée dans la table point
+            const pointResult = await pool.query(
+            `INSERT INTO point (id_user, valeur, motif)
+            VALUES ($1, $2, $3)
+            RETURNING id_point`,
+            [
+                mission.id_realisant,
+                mission.points_offerts,
+                `Mission terminée : ${mission.titre}`
+            ]
+            );
+
+            // 3 — Mettre à jour le solde du résident
+            await pool.query(
+            `UPDATE "user" 
+            SET solde_points = solde_points + $1
+            WHERE user_id = $2`,
+            [mission.points_offerts, mission.id_realisant]
+            );
+
+            await pool.query('COMMIT');
+
+            res.status(200).json({
+            message: 'Mission terminée avec succès',
+            points_credites: mission.points_offerts,
+            mission_statut: 'terminee'
+            });
+
+        } catch (error) {
+            await pool.query('ROLLBACK');
+            console.error('Erreur terminerMission:', error.message);
+            res.status(500).json({ message: 'Erreur serveur' });
+        }
+    };
+
     module.exports = {
     createMission,
     getMissions,
     getMissionById,
     updateMission,
     deleteMission,
-    accepterMission
+    accepterMission,
+    terminerMission
 };

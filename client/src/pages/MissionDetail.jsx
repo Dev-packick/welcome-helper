@@ -12,6 +12,8 @@ const MissionDetail = () => {
     const [loading, setLoading] = useState(true)
     const [accepting, setAccepting] = useState(false)
     const [error, setError] = useState('')
+    const [terminating, setTerminating] = useState(false)
+    const [success, setSuccess] = useState('')
 
     useEffect(() => {
         fetchMission()
@@ -41,6 +43,24 @@ const MissionDetail = () => {
         setError(err.response?.data?.message || 'Erreur lors de l\'acceptation')
         } finally {
         setAccepting(false)
+        }
+    }
+
+    const handleTerminer = async () => {
+        if (!window.confirm('Confirmer la fin de la mission ? Les points seront crédités au helper.')) return
+        setTerminating(true)
+        setError('')
+        try {
+            const response = await axios.post(
+            `/api/missions/${id}/terminer`, {},
+            { headers: { Authorization: `Bearer ${token}` } }
+            )
+            setSuccess(`Mission terminée ! ${response.data.points_credites} points crédités au helper.`)
+            fetchMission()
+        } catch (err) {
+            setError(err.response?.data?.message || 'Erreur')
+        } finally {
+            setTerminating(false)
         }
     }
 
@@ -97,6 +117,18 @@ const MissionDetail = () => {
                     {!isOwner && mission.statut === 'ouverte' && (
                         <button className={accepting ? 'auth-btn-disabled' : 'auth-btn'} onClick={handleAccepter} disabled={accepting} style={{ width:'100%' }}>
                             {accepting ? 'Acceptation...' : 'Accepter cette mission'}
+                        </button>
+                    )}
+
+                    {success && (
+                        <div className="edit-success" style={{ marginBottom: '16px' }}>
+                            {success}
+                        </div>
+                        )}
+
+                        {isOwner && mission.statut === 'en_cours' && (
+                        <button className={terminating ? 'auth-btn-disabled' : 'auth-btn'} onClick={handleTerminer} disabled={terminating} style={{ width: '100%', background: 'linear-gradient(135deg, #22c55e, #16a34a)' }}>
+                            {terminating ? 'Traitement...' : '✓ Marquer comme terminée'}
                         </button>
                     )}
 
