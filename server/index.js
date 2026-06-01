@@ -8,6 +8,7 @@ const missionRoutes = require('./routes/mission.route');
 const messageRoutes = require('./routes/message.route');
 const evaluationRoutes = require('./routes/evaluation.route');
 const pointsRoutes = require('./routes/points.route');
+const recompenseRoutes = require('./routes/recompense.route');
 
 const path = require('path');
 
@@ -25,6 +26,7 @@ app.use('/api/missions', missionRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/evaluations', evaluationRoutes);
 app.use('/api/points', pointsRoutes);
+app.use('/api/recompenses', recompenseRoutes);
 
 
 // Route de test

@@ -9,6 +9,7 @@ import Missions from './pages/Missions'
 import MissionDetail from './pages/MissionDetail'
 import PublierMission from './pages/PublierMission'
 import Messages from './pages/Messages'
+import Recompenses from './pages/Recompenses'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/missions/:id" element={<MissionDetail />} />
         <Route path="/missions/publier" element={<PublierMission />} />
         <Route path="/messages" element={<Messages />} />
+        <Route path="/recompenses" element={<Recompenses />} />
       </Routes>
     </BrowserRouter>
   )
