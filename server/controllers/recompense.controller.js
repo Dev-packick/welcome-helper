@@ -1,4 +1,6 @@
 const pool = require('../db/pool');
+const { debitPoints } = require('../utils/pointsService');
+
 
 // GET — Liste des récompenses
 const getRecompenses = async (req, res) => {
@@ -35,6 +37,7 @@ const getRecompenses = async (req, res) => {
     }
     };
 
+
     // GET — Détail d'une récompense
     const getRecompenseById = async (req, res) => {
     const { id } = req.params;
@@ -64,4 +67,76 @@ const getRecompenses = async (req, res) => {
     }
 };
 
-module.exports = { getRecompenses, getRecompenseById };
+
+// POST — Échanger des points contre une récompense
+const echangerRecompense = async (req, res) => {
+    const { id } = req.params;
+    const user_id = req.user.user_id;
+
+    try {
+        // Récupérer la récompense
+        const recompCheck = await pool.query(
+        'SELECT * FROM recompense WHERE id_recomp = $1',
+        [id]
+        );
+
+        if (recompCheck.rows.length === 0) {
+        return res.status(404).json({ message: 'Récompense non trouvée' });
+        }
+
+    const recompense = recompCheck.rows[0];
+
+    // Vérifier le stock
+    if (recompense.stock_disponible <= 0) {
+        return res.status(400).json({ message: 'Stock épuisé' });
+        }
+
+        // Vérifier le solde via debitPoints (lance une erreur si insuffisant)
+        await pool.query('BEGIN');
+
+        try {
+        // Débiter les points
+        await debitPoints(
+            user_id,
+            recompense.cout_en_points,
+            `Échange récompense : ${recompense.nom_recomp}`
+        );
+
+        // Décrémenter le stock
+        await pool.query(
+            `UPDATE recompense
+            SET stock_disponible = stock_disponible - 1
+            WHERE id_recomp = $1`,
+            [id]
+        );
+
+        // Enregistrer l'échange
+        await pool.query(
+            `INSERT INTO echanger (id_user, id_recomp, date_echange)
+            VALUES ($1, $2, NOW())`,
+            [user_id, id]
+        );
+
+        await pool.query('COMMIT');
+
+        res.status(200).json({
+            message: 'Échange effectué avec succès',
+            recompense: recompense.nom_recomp,
+            points_debites: recompense.cout_en_points
+        });
+
+        } catch (innerError) {
+        await pool.query('ROLLBACK');
+        if (innerError.message === 'Solde insuffisant') {
+            return res.status(400).json({ message: 'Solde insuffisant' });
+        }
+        throw innerError;
+        }
+
+    } catch (error) {
+        console.error('Erreur echangerRecompense:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+};
+
+module.exports = { getRecompenses, getRecompenseById, echangerRecompense };
