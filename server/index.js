@@ -7,6 +7,8 @@ const profilRoutes = require('./routes/profil.route');
 const missionRoutes = require('./routes/mission.route');
 const messageRoutes = require('./routes/message.route');
 const evaluationRoutes = require('./routes/evaluation.route');
+const pointsRoutes = require('./routes/points.route');
+
 const path = require('path');
 
 const app = express();
@@ -22,6 +24,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/missions', missionRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/evaluations', evaluationRoutes);
+app.use('/api/points', pointsRoutes);
 
 
 // Route de test

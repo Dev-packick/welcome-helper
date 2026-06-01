@@ -81,7 +81,7 @@ const Home = () => {
       {/* ── HERO ── */}
       <section className="home-hero" aria-label="Présentation WelcomeHelper">
         <p className="home-tag">
-          ❤ Rejoignez plus de 3 000 étudiants
+          Rejoignez plus de 3 000 étudiants
         </p>
 
         <h1 className="home-title">

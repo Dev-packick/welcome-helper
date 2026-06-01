@@ -1,5 +1,6 @@
 const pool = require('../db/pool');
 const { validationResult } = require('express-validator');
+const { creditPoints } = require('../utils/pointsService');
 
 // POST — Créer une mission
 const createMission = async (req, res) => {
@@ -239,7 +240,7 @@ const createMission = async (req, res) => {
 
             // 1 — Mettre à jour la mission
             await pool.query(
-            `UPDATE mission 
+            `UPDATE mission
             SET statut = 'en_cours', id_realisant = $1
             WHERE id_mission = $2`,
             [id_realisant, id]
@@ -310,24 +311,11 @@ const createMission = async (req, res) => {
             [id]
             );
 
-            // 2 — Créer une entrée dans la table point
-            const pointResult = await pool.query(
-            `INSERT INTO point (id_user, valeur, motif)
-            VALUES ($1, $2, $3)
-            RETURNING id_point`,
-            [
-                mission.id_realisant,
-                mission.points_offerts,
-                `Mission terminée : ${mission.titre}`
-            ]
-            );
-
-            // 3 — Mettre à jour le solde du résident
-            await pool.query(
-            `UPDATE "user" 
-            SET solde_points = solde_points + $1
-            WHERE user_id = $2`,
-            [mission.points_offerts, mission.id_realisant]
+            // 2 & 3 - Créditer les points au résident via le service
+            await creditPoints(
+            mission.id_realisant,
+            mission.points_offerts,
+            `Mission terminée : ${mission.titre}`
             );
 
             await pool.query('COMMIT');
