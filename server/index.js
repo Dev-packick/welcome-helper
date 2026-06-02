@@ -10,6 +10,7 @@ const messageRoutes = require('./routes/message.route');
 const evaluationRoutes = require('./routes/evaluation.route');
 const pointsRoutes = require('./routes/points.route');
 const recompenseRoutes = require('./routes/recompense.route');
+const adminRoutes = require('./routes/admin.route');
 
 const path = require('path');
 
@@ -31,6 +32,7 @@ app.use('/api/evaluations', evaluationRoutes);
 app.use('/api/points', pointsRoutes);
 app.use('/api/recompenses', recompenseRoutes);
 app.use('/api/abonnement', abonnementRoutes);
+app.use('/api/admin', adminRoutes);
 
 
 // Route de test

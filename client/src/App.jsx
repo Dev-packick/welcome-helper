@@ -12,6 +12,8 @@ import Messages from './pages/Messages'
 import Recompenses from './pages/Recompenses'
 import Premium from './pages/Premium'
 import AbonnementSucces from './pages/AbonnementSucces'
+import Admin from './pages/Admin'
+
 
 
 
@@ -32,6 +34,7 @@ function App() {
         <Route path="/recompenses" element={<Recompenses />} />
         <Route path="/premium" element={<Premium />} />
         <Route path="/abonnement/succes" element={<AbonnementSucces />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   )
