@@ -3,10 +3,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
-// *****INSCRIPTION*****
+// INSCRIPTION
 const register = async (req, res) => {
-
-    // Vérifier les erreurs de validation
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -27,9 +25,11 @@ const register = async (req, res) => {
         });
         }
 
+
         // Hasher le mot de passe
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
+
 
         // Insérer l'utilisateur
         const newUser = await pool.query(
@@ -41,11 +41,26 @@ const register = async (req, res) => {
 
         const user = newUser.rows[0];
 
+
         // Créer le profil automatiquement
         await pool.query(
         'INSERT INTO profil (id_user) VALUES ($1)',
         [user.user_id]
         );
+
+
+        // Créditer 50 points de bienvenue au résident
+        if (role === 'resident') {
+        await pool.query(
+            `UPDATE "user" SET solde_points = 50 WHERE user_id = $1`,
+            [user.user_id]
+        );
+        await pool.query(
+            `INSERT INTO point (id_user, valeur, motif) VALUES ($1, 50, $2)`,
+            [user.user_id, 'Points de bienvenue WelcomeHelper']
+        );
+        }
+
 
         // Générer le token JWT
         const token = jwt.sign(
@@ -70,13 +85,11 @@ const register = async (req, res) => {
         console.error('Erreur register:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-};
+    };
 
-
-// *****CONNEXION*****
-const login = async (req, res) => {
-
-    // Vérifier les erreurs de validation
+    
+    // CONNEXION
+    const login = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -85,7 +98,6 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Vérifier si l'utilisateur existe
         const result = await pool.query(
         'SELECT * FROM "user" WHERE email = $1',
         [email]
@@ -99,7 +111,6 @@ const login = async (req, res) => {
 
         const user = result.rows[0];
 
-        // Vérifier le mot de passe
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
@@ -108,7 +119,6 @@ const login = async (req, res) => {
         });
         }
 
-        // Générer le token JWT
         const token = jwt.sign(
         { user_id: user.user_id, role: user.role },
         process.env.JWT_SECRET,

@@ -23,8 +23,8 @@ const missionValidation = [
     body('cat_mission')
         .notEmpty().withMessage('La catégorie est obligatoire'),
     body('points_offerts')
-        .isInt({ min: 1, max: 500 }).withMessage('Points entre 1 et 500'),
-];
+    .isInt({ min: 5, max: 100 }).withMessage('Points entre 5 et 100'),
+    ];
 
 // GET /api/missions — liste publique avec filtres
 router.get('/', getMissions);
