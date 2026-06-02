@@ -10,7 +10,7 @@ const getStats = async (req, res) => {
         revenusResult
         ] = await Promise.all([
         pool.query(`
-            SELECT 
+            SELECT
             COUNT(*) AS total,
             COUNT(*) FILTER (WHERE role = 'etranger') AS etrangers,
             COUNT(*) FILTER (WHERE role = 'resident') AS residents,
@@ -84,7 +84,6 @@ const getStats = async (req, res) => {
         params.push(limit, offset);
 
         const result = await pool.query(query, params);
-
         res.status(200).json({ users: result.rows });
 
     } catch (error) {
@@ -96,15 +95,12 @@ const getStats = async (req, res) => {
     // PUT — Certifier un utilisateur
     const certifierUser = async (req, res) => {
     const { id } = req.params;
-
     try {
         await pool.query(
         `UPDATE "user" SET is_certifie = true WHERE user_id = $1`,
         [id]
         );
-
         res.status(200).json({ message: 'Utilisateur certifié avec succès' });
-
     } catch (error) {
         console.error('Erreur certifierUser:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
@@ -114,15 +110,12 @@ const getStats = async (req, res) => {
     // DELETE — Supprimer un utilisateur
     const deleteUser = async (req, res) => {
     const { id } = req.params;
-
     try {
         await pool.query(
         `DELETE FROM "user" WHERE user_id = $1 AND role != 'admin'`,
         [id]
         );
-
         res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
-
     } catch (error) {
         console.error('Erreur deleteUser:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
@@ -159,7 +152,6 @@ const getStats = async (req, res) => {
         params.push(limit, offset);
 
         const result = await pool.query(query, params);
-
         res.status(200).json({ missions: result.rows });
 
     } catch (error) {
@@ -171,13 +163,169 @@ const getStats = async (req, res) => {
     // DELETE — Supprimer une mission (admin)
     const deleteMissionAdmin = async (req, res) => {
     const { id } = req.params;
-
     try {
         await pool.query('DELETE FROM mission WHERE id_mission = $1', [id]);
         res.status(200).json({ message: 'Mission supprimée' });
-
     } catch (error) {
         console.error('Erreur deleteMissionAdmin:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // GET — Liste des partenaires
+    const getPartenaires = async (req, res) => {
+    try {
+        const result = await pool.query(
+        `SELECT partenaire.*,
+            COUNT(recompense.id_recomp) AS nb_recompenses
+        FROM partenaire
+        LEFT JOIN recompense ON recompense.id_partenaire = partenaire.id_partenaire
+        GROUP BY partenaire.id_partenaire
+        ORDER BY partenaire.nom_enseigne ASC`
+        );
+        res.status(200).json({ partenaires: result.rows });
+    } catch (error) {
+        console.error('Erreur getPartenaires:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // POST — Créer un partenaire
+    const createPartenaire = async (req, res) => {
+    const { nom_enseigne, logo_url, contact } = req.body;
+    if (!nom_enseigne) {
+        return res.status(400).json({ message: 'Le nom est obligatoire' });
+    }
+    try {
+        const result = await pool.query(
+        `INSERT INTO partenaire (nom_enseigne, logo_url, contact)
+        VALUES ($1, $2, $3) RETURNING *`,
+        [nom_enseigne, logo_url, contact]
+        );
+        res.status(201).json({
+        message: 'Partenaire créé avec succès',
+        partenaire: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Erreur createPartenaire:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // PUT — Modifier un partenaire
+    const updatePartenaire = async (req, res) => {
+    const { id } = req.params;
+    const { nom_enseigne, logo_url, contact } = req.body;
+    try {
+        const result = await pool.query(
+        `UPDATE partenaire
+        SET nom_enseigne=$1, logo_url=$2, contact=$3
+        WHERE id_partenaire=$4 RETURNING *`,
+        [nom_enseigne, logo_url, contact, id]
+        );
+        if (result.rows.length === 0) {
+        return res.status(404).json({ message: 'Partenaire non trouvé' });
+        }
+        res.status(200).json({
+        message: 'Partenaire mis à jour',
+        partenaire: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Erreur updatePartenaire:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // DELETE — Supprimer un partenaire
+    const deletePartenaire = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('DELETE FROM partenaire WHERE id_partenaire = $1', [id]);
+        res.status(200).json({ message: 'Partenaire supprimé' });
+    } catch (error) {
+        console.error('Erreur deletePartenaire:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // GET — Récompenses d'un partenaire
+    const getRecompensesPartenaire = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await pool.query(
+        `SELECT * FROM recompense 
+        WHERE id_partenaire = $1 
+        ORDER BY cout_en_points ASC`,
+        [id]
+        );
+        res.status(200).json({ recompenses: result.rows });
+    } catch (error) {
+        console.error('Erreur getRecompensesPartenaire:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // POST — Créer une récompense
+    const createRecompense = async (req, res) => {
+    const { id } = req.params;
+    const { nom_recomp, desc_recomp, cout_en_points, stock_disponible, cat_partenaire, image_url } = req.body;
+
+    if (!nom_recomp || !cout_en_points) {
+        return res.status(400).json({ message: 'Nom et coût sont obligatoires' });
+    }
+
+    try {
+        const result = await pool.query(
+        `INSERT INTO recompense 
+            (id_partenaire, nom_recomp, desc_recomp, cout_en_points, stock_disponible, cat_partenaire, image_url)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        RETURNING *`,
+        [id, nom_recomp, desc_recomp, cout_en_points, stock_disponible || 0, cat_partenaire, image_url || null]
+        );
+        res.status(201).json({
+        message: 'Récompense créée',
+        recompense: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Erreur createRecompense:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // PUT — Modifier une récompense
+    const updateRecompense = async (req, res) => {
+    const { id } = req.params;
+    const { nom_recomp, desc_recomp, cout_en_points, stock_disponible, cat_partenaire, image_url } = req.body;
+
+    try {
+        const result = await pool.query(
+        `UPDATE recompense
+        SET nom_recomp=$1, desc_recomp=$2, cout_en_points=$3,
+            stock_disponible=$4, cat_partenaire=$5, image_url=$6
+        WHERE id_recomp=$7 RETURNING *`,
+        [nom_recomp, desc_recomp, cout_en_points, stock_disponible, cat_partenaire, image_url || null, id]
+        );
+        if (result.rows.length === 0) {
+        return res.status(404).json({ message: 'Récompense non trouvée' });
+        }
+        res.status(200).json({
+        message: 'Récompense mise à jour',
+        recompense: result.rows[0]
+        });
+    } catch (error) {
+        console.error('Erreur updateRecompense:', error.message);
+        res.status(500).json({ message: 'Erreur serveur' });
+    }
+    };
+
+    // DELETE — Supprimer une récompense
+    const deleteRecompense = async (req, res) => {
+    const { id } = req.params;
+    try {
+        await pool.query('DELETE FROM recompense WHERE id_recomp = $1', [id]);
+        res.status(200).json({ message: 'Récompense supprimée' });
+    } catch (error) {
+        console.error('Erreur deleteRecompense:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
     };
@@ -188,5 +336,13 @@ const getStats = async (req, res) => {
     certifierUser,
     deleteUser,
     getMissionsAdmin,
-    deleteMissionAdmin
+    deleteMissionAdmin,
+    getPartenaires,
+    createPartenaire,
+    updatePartenaire,
+    deletePartenaire,
+    getRecompensesPartenaire,
+    createRecompense,
+    updateRecompense,
+    deleteRecompense
 };

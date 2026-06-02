@@ -7,7 +7,7 @@ import Navbar from '../components/Navbar'
 const CATEGORIES = ['Toutes', 'Shopping', 'Loisirs', 'Alimentation', 'Transport']
 
 const Recompenses = () => {
-    const { token, user } = useAuth()
+    const { token } = useAuth()
     const navigate = useNavigate()
     const [recompenses, setRecompenses] = useState([])
     const [solde, setSolde] = useState(0)
@@ -80,7 +80,7 @@ const Recompenses = () => {
 
     const recompensesFiltrees = recompenses.filter(r =>
         r.nom_recomp.toLowerCase().includes(search.toLowerCase()) ||
-        r.nom_enseigne.toLowerCase().includes(search.toLowerCase())
+        r.nom_enseigne?.toLowerCase().includes(search.toLowerCase())
     )
 
     const formatDate = (dateStr) => {
@@ -99,9 +99,7 @@ const Recompenses = () => {
             <div className="recomp-header">
             <div>
                 <h1 className="recomp-title">Catalogue de récompenses</h1>
-                <p className="recomp-subtitle">
-                Échangez vos points contre des récompenses
-                </p>
+                <p className="recomp-subtitle">Échangez vos points contre des récompenses</p>
             </div>
             {token && (
                 <div className="recomp-solde-badge">
@@ -114,16 +112,11 @@ const Recompenses = () => {
             )}
             </div>
 
-            {/* Messages */}
             {success && (
-            <div className="edit-success" style={{ marginBottom: '16px' }}>
-                {success}
-            </div>
+            <div className="edit-success" style={{ marginBottom:'16px' }}>{success}</div>
             )}
             {error && (
-            <div className="edit-error" style={{ marginBottom: '16px' }}>
-                {error}
-            </div>
+            <div className="edit-error" style={{ marginBottom:'16px' }}>{error}</div>
             )}
 
             {/* ── RECHERCHE ── */}
@@ -150,7 +143,7 @@ const Recompenses = () => {
             </div>
 
             {/* ── TABS ── */}
-            <div className="profil-tabs" style={{ marginBottom: '24px' }}>
+            <div className="profil-tabs" style={{ marginBottom:'24px' }}>
             <button
                 className={activeTab === 'disponibles' ? 'profil-tab active' : 'profil-tab'}
                 onClick={() => setActiveTab('disponibles')}
@@ -181,11 +174,20 @@ const Recompenses = () => {
                     return (
                     <div key={recomp.id_recomp} className="recomp-card">
 
-                        {/* Image placeholder avec couleur */}
+                        {/* Image */}
                         <div className="recomp-card-img">
-                        <div className="recomp-card-img-inner">
-                            🎁
-                        </div>
+                        {recomp.image_url ? (
+                            <img
+                            src={`http://localhost:5000${recomp.image_url}`}
+                            alt={recomp.nom_recomp}
+                            style={{
+                                width:'100%', height:'100%',
+                                objectFit:'cover', display:'block'
+                            }}
+                            />
+                        ) : (
+                            <div className="recomp-card-img-inner">🎁</div>
+                        )}
                         <span className={recomp.stock_disponible <= 5
                             ? 'recomp-stock-badge limite'
                             : 'recomp-stock-badge'
@@ -202,26 +204,17 @@ const Recompenses = () => {
 
                         <div className="recomp-card-footer">
                             <div>
-                            <span className="recomp-points">
-                                ⭐ {recomp.cout_en_points}
-                            </span>
-                            <span className="recomp-partenaire">
-                                {recomp.nom_enseigne}
-                            </span>
+                            <span className="recomp-points">⭐ {recomp.cout_en_points}</span>
+                            <span className="recomp-partenaire">{recomp.nom_enseigne}</span>
                             </div>
                             <button
-                            className={canExchange
-                                ? 'recomp-btn'
-                                : 'recomp-btn-disabled'
-                            }
+                            className={canExchange ? 'recomp-btn' : 'recomp-btn-disabled'}
                             onClick={() => handleEchanger(recomp)}
                             disabled={!canExchange || exchanging === recomp.id_recomp}
                             >
                             {exchanging === recomp.id_recomp
                                 ? 'Échange...'
-                                : canExchange
-                                ? 'Échanger'
-                                : 'Points insuffisants'
+                                : canExchange ? 'Échanger' : 'Points insuffisants'
                             }
                             </button>
                         </div>

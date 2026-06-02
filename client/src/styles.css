@@ -3684,3 +3684,138 @@ EVALUATION
         grid-template-columns: repeat(2, 1fr);
     }
 }
+
+/* =====================
+    ADMIN PARTENAIRES
+===================== */
+    .admin-partenaire-form {
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #334155;
+    }
+
+    .admin-partenaire-form-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 16px;
+    }
+
+    .admin-partenaires-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+
+    .admin-partenaire-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #1e293b;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    transition: border-color 0.2s;
+    }
+
+    .admin-partenaire-card:hover {
+    border-color: #475569;
+    }
+
+    .admin-partenaire-logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 6px;
+    overflow: hidden;
+    }
+
+    .admin-partenaire-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    }
+
+    .admin-partenaire-info {
+    flex: 1;
+    }
+
+    .admin-partenaire-nom {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e2e8f0;
+    margin-bottom: 3px;
+    }
+
+    .admin-partenaire-contact {
+    font-size: 12px;
+    color: #64748b;
+    margin-bottom: 3px;
+    }
+
+    .admin-partenaire-recomp {
+    font-size: 12px;
+    color: #60a5fa;
+}
+.admin-logo-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    }
+
+    .admin-logo-preview {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+    background: #1e293b;
+    padding: 4px;
+    border: 1px solid #334155;
+}
+
+.admin-btn-recompenses {
+    padding: 5px 12px;
+    background: rgba(245,158,11,0.15);
+    border: 1px solid rgba(245,158,11,0.3);
+    border-radius: 6px;
+    color: #fbbf24;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    }
+
+    .admin-btn-recompenses:hover {
+    background: rgba(245,158,11,0.25);
+    }
+
+    .admin-recomp-panel {
+    margin-top: 20px;
+    background: #1e293b;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #334155;
+    }
+
+    .admin-recomp-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+    }
+
+    .admin-recomp-panel-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e2e8f0;
+}
