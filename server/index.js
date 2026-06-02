@@ -1,3 +1,4 @@
+const abonnementRoutes = require('./routes/abonnement.route');
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -15,6 +16,8 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Le webhook Stripe doit recevoir le raw body — avant express.json()
+app.use('/api/abonnement/webhook', express.raw({ type: 'application/json' }), require('./routes/abonnement.route'));
 app.use(cors());
 app.use(express.json());
 
@@ -27,6 +30,7 @@ app.use('/api/messages', messageRoutes);
 app.use('/api/evaluations', evaluationRoutes);
 app.use('/api/points', pointsRoutes);
 app.use('/api/recompenses', recompenseRoutes);
+app.use('/api/abonnement', abonnementRoutes);
 
 
 // Route de test

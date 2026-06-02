@@ -10,6 +10,9 @@ import MissionDetail from './pages/MissionDetail'
 import PublierMission from './pages/PublierMission'
 import Messages from './pages/Messages'
 import Recompenses from './pages/Recompenses'
+import Premium from './pages/Premium'
+import AbonnementSucces from './pages/AbonnementSucces'
+
 
 
 function App() {
@@ -27,6 +30,8 @@ function App() {
         <Route path="/missions/publier" element={<PublierMission />} />
         <Route path="/messages" element={<Messages />} />
         <Route path="/recompenses" element={<Recompenses />} />
+        <Route path="/premium" element={<Premium />} />
+        <Route path="/abonnement/succes" element={<AbonnementSucces />} />
       </Routes>
     </BrowserRouter>
   )
