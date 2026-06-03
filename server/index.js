@@ -11,6 +11,7 @@ const evaluationRoutes = require('./routes/evaluation.route');
 const pointsRoutes = require('./routes/points.route');
 const recompenseRoutes = require('./routes/recompense.route');
 const adminRoutes = require('./routes/admin.route');
+const dashboardRoutes = require('./routes/dashboard.route');
 
 const path = require('path');
 
@@ -33,6 +34,7 @@ app.use('/api/points', pointsRoutes);
 app.use('/api/recompenses', recompenseRoutes);
 app.use('/api/abonnement', abonnementRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 
 // Route de test
