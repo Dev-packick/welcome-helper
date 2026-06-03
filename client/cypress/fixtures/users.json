@@ -1,0 +1,16 @@
+{
+    "etranger": {
+        "nom": "Cypress",
+        "prenom": "Etranger",
+        "email": "cypress.etranger@test.com",
+        "password": "password123",
+        "role": "etranger"
+    },
+    "resident": {
+        "nom": "Cypress",
+        "prenom": "Resident",
+        "email": "cypress.resident@test.com",
+        "password": "password123",
+        "role": "resident"
+    }
+}
