@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: welcomehelper_db
+    environment:
+      POSTGRES_DB: welcomehelper
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - welcomehelper_network
+
+  # Backend Express
+  server:
+    build: ./server
+    container_name: welcomehelper_server
+    environment:
+      PORT: 5000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: welcomehelper
+      DB_USER: postgres
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      FRONTEND_URL: ${FRONTEND_URL}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - welcomehelper_network
+    volumes:
+      - uploads_data:/app/uploads
+
+  # Frontend React
+  client:
+    build: ./client
+    container_name: welcomehelper_client
+    ports:
+      - "80:80"
+    depends_on:
+      - server
+    networks:
+      - welcomehelper_network
+
+volumes:
+  postgres_data:
+  uploads_data:
+
+networks:
+  welcomehelper_network:
+    driver: bridge
+    
