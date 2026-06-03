@@ -1,0 +1,41 @@
+name: CI — Tests automatiques
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests-unitaires:
+    name: Tests unitaires Jest
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer le code
+        uses: actions/checkout@v3
+
+      - name: Installer Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Installer les dépendances server
+        run: |
+          cd server
+          npm install
+
+      - name: Lancer les tests Jest
+        run: |
+          cd server
+          npm test
+        env:
+          NODE_ENV: test
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_NAME: welcomehelper_test
+          DB_USER: postgres
+          DB_PASSWORD: postgres
+          JWT_SECRET: test_secret_key
+          PORT: 5001
+          
