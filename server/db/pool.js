@@ -6,13 +6,19 @@ require('dotenv').config({
 
     const { Pool } = require('pg');
 
-    const pool = new Pool({
-    host: process.env.DB_HOST,
-    port: parseInt(process.env.DB_PORT),
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: String(process.env.DB_PASSWORD),
-    });
+    // Railway fournit DATABASE_URL — sinon on utilise les variables séparées
+    const pool = process.env.DATABASE_URL
+    ? new Pool({
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false }
+        })
+    : new Pool({
+        host: process.env.DB_HOST,
+        port: parseInt(process.env.DB_PORT),
+        database: process.env.DB_NAME,
+        user: process.env.DB_USER,
+        password: String(process.env.DB_PASSWORD),
+        });
 
     if (process.env.NODE_ENV !== 'test') {
     pool.connect()
