@@ -1,7 +1,6 @@
 const multer = require('multer');
 const path = require('path');
 
-// Filtre images — déclaré EN PREMIER
 const imageFilter = (req, file, cb) => {
     const allowedTypes = [
         'image/jpeg', 'image/jpg', 'image/png',

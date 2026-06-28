@@ -1,3 +1,6 @@
+// ══════════════════════════════════════════
+// TESTS FONCTIONNELS - Accueil
+// ══════════════════════════════════════════
 describe('Page d\'accueil', () => {
 
     beforeEach(() => {

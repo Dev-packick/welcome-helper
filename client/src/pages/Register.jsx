@@ -63,14 +63,14 @@ const Register = () => {
                 <div className="register-role-section">
                     <p className="register-role-label">Je suis...</p>
                     <div className="register-role-card" onClick={() => handleRoleSelect('etranger')}>
-                        <div className="register-role-icon">👤</div>
+                        {/* <div className="register-role-icon">👤</div> */}
                         <div>
                             <p className="register-role-name">Nouvel arrivant</p>
                             <p className="register-role-desc">Je viens d'arriver en France et j'ai besoin d'aide</p>
                         </div>
                     </div>
                     <div className="register-role-card" onClick={() => handleRoleSelect('resident')}>
-                        <div className="register-role-icon-green">🤝</div>
+                        {/* <div className="register-role-icon-green">🤝</div> */}
                         <div>
                             <p className="register-role-name">Helper (Étudiant résident)</p>
                             <p className="register-role-desc">Je veux aider les nouveaux arrivants</p>
@@ -96,7 +96,7 @@ const Register = () => {
                         <div className="auth-field">
                             <label className="auth-label">Nom complet</label>
                             <div className="auth-input-wrapper">
-                                <span className="auth-input-icon">👤</span>
+                                {/* <span className="auth-input-icon">👤</span> */}
                                 <input type="text" name="nom" placeholder="Ex: Dupont" value={formData.nom} onChange={handleChange} className="auth-input" required />
                             </div>
                         </div>
@@ -104,7 +104,7 @@ const Register = () => {
                         <div className="auth-field">
                             <label className="auth-label">Prénom</label>
                             <div className="auth-input-wrapper">
-                                <span className="auth-input-icon">👤</span>
+                                {/* <span className="auth-input-icon">👤</span> */}
                                 <input type="text" name="prenom" placeholder="Ex: Marie" value={formData.prenom} onChange={handleChange} className="auth-input" required />
                             </div>
                         </div>
@@ -112,7 +112,7 @@ const Register = () => {
                         <div className="auth-field">
                             <label className="auth-label">Email</label>
                             <div className="auth-input-wrapper">
-                                <span className="auth-input-icon">✉</span>
+                                {/* <span className="auth-input-icon">✉</span> */}
                                 <input type="email" name="email" placeholder="votre.email@exemple.com" value={formData.email} onChange={handleChange} className="auth-input" required />
                             </div>
                         </div>
@@ -120,11 +120,11 @@ const Register = () => {
                         <div className="auth-field">
                             <label className="auth-label">Mot de passe</label>
                             <div className="auth-input-wrapper">
-                                <span className="auth-input-icon">🔒</span>
+                                {/* <span className="auth-input-icon">🔒</span> */}
                                 <input type={showPassword ? 'text' : 'password'} name="password" placeholder="Minimum 8 caractères" value={formData.password} onChange={handleChange} className="auth-input" required />
                                 <span className="auth-eye-icon"
                                     onClick={() => setShowPassword(!showPassword)}>
-                                    {showPassword ? '🙈' : '👁'}
+                                    {showPassword ? '🔑' : '👁'}
                                 </span>
                             </div>
                         </div>
@@ -132,7 +132,7 @@ const Register = () => {
                         <div className="auth-field">
                             <label className="auth-label">Confirmer le mot de passe</label>
                             <div className="auth-input-wrapper">
-                                <span className="auth-input-icon">🔒</span>
+                                {/* <span className="auth-input-icon">🔒</span> */}
                                 <input type="password" name="confirmPassword" placeholder="••••••••" value={formData.confirmPassword} onChange={handleChange} className="auth-input" required />
                             </div>
                         </div>

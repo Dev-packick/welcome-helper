@@ -1,9 +1,6 @@
 // ══════════════════════════════════════════
-// TESTS FONCTIONNELS — Authentification
-// On teste l'inscription et la connexion
-// depuis l'interface utilisateur
+// TESTS FONCTIONNELS - Authentification
 // ══════════════════════════════════════════
-
 describe('Inscription', () => {
 
     it('affiche le formulaire d\'inscription', () => {
@@ -56,7 +53,6 @@ describe('Inscription', () => {
         cy.get('input[name="confirmPassword"]').type('password');
 
         cy.contains('Créer mon compte').click();
-
         cy.get('.auth-error').should('be.visible');
     });
     });
@@ -70,18 +66,15 @@ describe('Inscription', () => {
 
     it('connecte un utilisateur existant', () => {
         cy.visit('/login');
-
         cy.get('input[name="email"]').type('alexandre@test.com');
         cy.get('input[name="password"]').type('Alipatrick7');
 
         cy.contains('Se connecter').click();
-
         cy.url().should('include', '/dashboard');
         });
 
     it('affiche une erreur avec un mauvais mot de passe', () => {
         cy.visit('/login');
-
         cy.get('input[name="email"]').type('alexandre@test.com');
         cy.get('input[name="password"]').type('mauvaismdp');
 
@@ -93,7 +86,6 @@ describe('Inscription', () => {
 
     it('affiche une erreur avec un email inexistant', () => {
         cy.visit('/login');
-
         cy.get('input[name="email"]').type('inexistant@test.com');
         cy.get('input[name="password"]').type('password');
 

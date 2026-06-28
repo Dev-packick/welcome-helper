@@ -1,6 +1,6 @@
 const pool = require('../db/pool');
 
-// GET — Liste des conversations de l'utilisateur connecté
+// GET - Liste des conversations de l'utilisateur connecté
 const getConversations = async (req, res) => {
     const user_id = req.user.user_id;
 
@@ -57,16 +57,15 @@ const getConversations = async (req, res) => {
             console.error('Erreur getConversations:', error.message);
             res.status(500).json({ message: 'Erreur serveur' });
         }
-    };
+};
 
 
-    // GET — Messages d'une conversation
-    const getMessages = async (req, res) => {
+// GET - Messages d'une conversation
+const getMessages = async (req, res) => {
     const { id } = req.params;
     const user_id = req.user.user_id;
 
         try {
-            // Vérifier que l'utilisateur fait partie de la conversation
             const check = await pool.query(
             `SELECT * FROM conversation
             WHERE id_conversation = $1
@@ -78,9 +77,8 @@ const getConversations = async (req, res) => {
             return res.status(403).json({ message: 'Accès refusé' });
             }
 
-            // Récupérer les messages
             const result = await pool.query(
-            `SELECT 
+            `SELECT
                 message.*,
                 etudiant.nom, etudiant.prenom,
                 profil.avatar_url
@@ -92,7 +90,6 @@ const getConversations = async (req, res) => {
             [id]
             );
 
-            // Marquer les messages comme lus
             await pool.query(
             `UPDATE message
             SET is_read = true
@@ -106,11 +103,11 @@ const getConversations = async (req, res) => {
             console.error('Erreur getMessages:', error.message);
             res.status(500).json({ message: 'Erreur serveur' });
         }
-    };
+};
 
 
-    // POST — Envoyer un message
-    const sendMessage = async (req, res) => {
+// POST - Envoyer un message
+const sendMessage = async (req, res) => {
     const { id } = req.params;
     const { content } = req.body;
     const user_id = req.user.user_id;
@@ -120,7 +117,6 @@ const getConversations = async (req, res) => {
     }
 
         try {
-            // Vérifier que l'utilisateur fait partie de la conversation
             const check = await pool.query(
             `SELECT * FROM conversation
             WHERE id_conversation = $1
@@ -145,6 +141,6 @@ const getConversations = async (req, res) => {
             console.error('Erreur sendMessage:', error.message);
             res.status(500).json({ message: 'Erreur serveur' });
         }
-    };
+};
 
 module.exports = { getConversations, getMessages, sendMessage };

@@ -2,7 +2,7 @@ const pool = require('../db/pool');
 const { validationResult } = require('express-validator');
 
 
-// POST — Créer une évaluation
+// POST - Créer une évaluation
 const createEvaluation = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -13,7 +13,6 @@ const createEvaluation = async (req, res) => {
     const id_evaluateur = req.user.user_id;
 
         try {
-            // Vérifier que la mission existe et est terminée
             const missionCheck = await pool.query(
             'SELECT * FROM mission WHERE id_mission = $1',
             [id_mission]
@@ -25,21 +24,18 @@ const createEvaluation = async (req, res) => {
 
             const mission = missionCheck.rows[0];
 
-            // Vérifier que la mission est terminée
             if (mission.statut !== 'terminee') {
             return res.status(400).json({
                 message: 'Vous ne pouvez évaluer qu\'une mission terminée'
             });
             }
 
-            // Vérifier que c'est bien le créateur qui évalue
             if (mission.id_publiant !== id_evaluateur) {
             return res.status(403).json({
                 message: 'Seul le créateur de la mission peut évaluer'
             });
             }
 
-            // Vérifier qu'une évaluation n'existe pas déjà
             const evalCheck = await pool.query(
             'SELECT * FROM evaluation WHERE id_mission = $1',
             [id_mission]
@@ -51,7 +47,6 @@ const createEvaluation = async (req, res) => {
             });
             }
 
-            // Créer l'évaluation
             const result = await pool.query(
             `INSERT INTO evaluation
                 (id_mission, id_evaluateur, id_evaluer, note, commentaire)
@@ -69,11 +64,11 @@ const createEvaluation = async (req, res) => {
             console.error('Erreur createEvaluation:', error.message);
             res.status(500).json({ message: 'Erreur serveur' });
         }
-    };
+};
 
 
-    // GET — Évaluations reçues par un utilisateur
-    const getEvaluations = async (req, res) => {
+// GET - Évaluations reçues par un utilisateur
+const getEvaluations = async (req, res) => {
     const { id } = req.params;
 
         try {
@@ -105,6 +100,6 @@ const createEvaluation = async (req, res) => {
             console.error('Erreur getEvaluations:', error.message);
             res.status(500).json({ message: 'Erreur serveur' });
         }
-    };
+};
 
 module.exports = { createEvaluation, getEvaluations };

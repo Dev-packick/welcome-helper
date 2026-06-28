@@ -83,7 +83,7 @@ const CATEGORIES = [
                 {/* ── BARRE DE RECHERCHE ── */}
                 <div className="missions-search-row">
                     <div className="missions-search-wrapper">
-                        <span className="missions-search-icon">🔍</span>
+                        <span className="missions-search-icon"></span>
                         <input type="text" placeholder="Rechercher une mission..." value={search} onChange={e => setSearch(e.target.value)} className="missions-search-input" aria-label="Rechercher une mission"/>
                     </div>
                     <select value={catFilter} onChange={e => { setCatFilter(e.target.value); setPage(1); }} className="missions-cat-select" aria-label="Filtrer par catégorie">
@@ -145,7 +145,7 @@ const CATEGORIES = [
                             {/* Footer carte */}
                             <div className="mission-card-footer">
                                 <span className="mission-points"> ⭐ {mission.points_offerts} points </span>
-                                {mission.date_echeance && (<span className="mission-date"> 🕐 {new Date(mission.date_echeance).toLocaleDateString('fr-FR')}</span>)}
+                                {mission.date_echeance && (<span className="mission-date"> publié le : {new Date(mission.date_echeance).toLocaleDateString('fr-FR')}</span>)}
                                 <Link to={`/missions/${mission.id_mission}`} className="mission-voir-btn"> Voir détails </Link>
                             </div>
                         </div>

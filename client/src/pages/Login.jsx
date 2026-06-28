@@ -54,12 +54,12 @@ const Login = () => {
                     <div className="auth-field">
                         <div className="auth-label-row">
                             <label className="auth-label">Mot de passe</label>
-                            <Link to="/forgot-password" className="auth-forgot-link"> Mot de passe oublié ?</Link>
+                            <Link to="#" className="auth-forgot-link"> Mot de passe oublié ?</Link>
                         </div>
                         <div className="auth-input-wrapper">
                             <span className="auth-input-icon">🔒</span>
                             <input type={showPassword ? 'text' : 'password'} name="password" placeholder="••••••••" value={formData.password} onChange={handleChange} className="auth-input" required/>
-                            <span className="auth-eye-icon" onClick={() => setShowPassword(!showPassword)}> {showPassword ? '🙈' : '👁'}</span>
+                            <span className="auth-eye-icon" onClick={() => setShowPassword(!showPassword)}> {showPassword ? '🔑' : '👁'}</span>
                         </div>
                     </div>
 

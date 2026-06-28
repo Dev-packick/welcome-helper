@@ -1,7 +1,5 @@
 // ══════════════════════════════════════════
 // COMMANDES CYPRESS PERSONNALISÉES
-// Ce sont des raccourcis qu'on peut utiliser
-// dans tous nos tests
 // ══════════════════════════════════════════
 
 // Commande pour se connecter rapidement

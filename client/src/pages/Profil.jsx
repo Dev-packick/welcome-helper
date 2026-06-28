@@ -131,35 +131,35 @@ const Profil = () => {
                             <div className="profil-details">
                                 <span className="profil-detail-item"> ✉ {profil?.email} </span>
                                 {profil?.pays_origine && (
-                                    <span className="profil-detail-item"> 📍 {profil?.pays_origine} </span>
+                                    <span className="profil-detail-item"> {profil?.pays_origine} </span>
                                 )}
                                 {profil?.universite && (
-                                    <span className="profil-detail-item"> 🎓 {profil?.universite} </span>
+                                    <span className="profil-detail-item"> {profil?.universite} </span>
                                 )}
-                                <span className="profil-detail-item"> 📅 Membre depuis {formatDate(profil?.created_at)} </span>
+                                <span className="profil-detail-item">  Membre depuis {formatDate(profil?.created_at)} </span>
                             </div>
                             {profil?.bio && (
                                 <p className="profil-bio">{profil.bio}</p>
                             )}
                         </div>
                     </div>
-                    <Link to="/profil/edit" className="profil-edit-btn"> ✏ Modifier </Link>
+                    <Link to="/profil/edit" className="profil-edit-btn"> Modifier </Link>
                 </section>
 
                 {/* ── STATS ── */}
                 <div className="profil-stats-grid">
                     <div className="profil-stat-card">
-                        <span className="profil-stat-icon">⭐</span>
+                        <span className="profil-stat-icon"></span>
                         <p className="profil-stat-value">{profil?.solde_points || 0}</p>
                         <p className="profil-stat-label">Points totaux</p>
                     </div>
                     <div className="profil-stat-card">
-                        <span className="profil-stat-icon">🏆</span>
+                        <span className="profil-stat-icon"></span>
                         <p className="profil-stat-value">3</p>
                         <p className="profil-stat-label">Missions</p>
                     </div>
                     <div className="profil-stat-card">
-                        <span className="profil-stat-icon">🎖</span>
+                        <span className="profil-stat-icon"></span>
                         <p className="profil-stat-value">1</p>
                         <p className="profil-stat-label">Badges obtenus</p>
                     </div>
@@ -184,7 +184,7 @@ const Profil = () => {
                                 <div key={h.id} className="profil-historique-item">
                                     <div>
                                         <p className="profil-historique-titre">{h.titre}</p>
-                                        <p className="profil-historique-meta"> Avec {h.avec} • {h.date}</p>
+                                        <p className="profil-historique-meta"> Avec {h.avec} | {h.date}</p>
                                     </div>
                                     <div className="profil-historique-right">
                                         <span className="profil-historique-points"> ⭐ {h.points}</span>

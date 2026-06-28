@@ -19,7 +19,7 @@ const AbonnementSucces = () => {
             Abonnement activé !
             </h1>
             <p style={{ color:'#94a3b8', fontSize:'15px', marginBottom:'32px', lineHeight:'1.6' }}>
-            Bienvenue dans Premium. Vos avantages sont maintenant actifs —
+            Bienvenue dans Premium. Vos avantages sont maintenant actifs -
             points multipliés, missions illimitées et support prioritaire.
             </p>
             <Link

@@ -1,8 +1,5 @@
-version: '3.8'
-
 services:
 
-  # Base de données PostgreSQL
   db:
     image: postgres:15-alpine
     container_name: welcomehelper_db
@@ -14,11 +11,15 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./server/db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
     ports:
-      - "5432:5432"
+      - "5433:5432"
     networks:
       - welcomehelper_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  # Backend Express
   server:
     build: ./server
     container_name: welcomehelper_server
@@ -35,18 +36,18 @@ services:
     ports:
       - "5000:5000"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       - welcomehelper_network
     volumes:
       - uploads_data:/app/uploads
 
-  # Frontend React
   client:
     build: ./client
     container_name: welcomehelper_client
     ports:
-      - "80:80"
+      - "8080:80"
     depends_on:
       - server
     networks:

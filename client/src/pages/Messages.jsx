@@ -175,7 +175,7 @@ const Messages = () => {
                         {/* Messages */}
                         <div className="messages-chat-body">
                             {messages.length === 0 ? (
-                            <p className="messages-chat-empty">Aucun message — commencez la conversation !</p>
+                            <p className="messages-chat-empty">Aucun message - commencez la conversation !</p>
                             ) : (
                             messages.map(msg => {
                                 const isMine = msg.id_expediteur === user?.user_id

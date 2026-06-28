@@ -301,23 +301,49 @@ const Home = () => {
         </nav>
       </footer>
 
-      {/* ── COOKIE BANNER RGPD ── */}
       {cookieVisible && (
-        <div role="dialog" aria-modal="true" aria-label="Gestion des cookies" aria-live="polite">
-          <p className="cookie-text"> 🍪 Nous utilisons des cookies pour améliorer votre expérience et analyser notre trafic. En continuant, vous acceptez notre{' '}
-            <Link to="/confidentialite">politique de confidentialité</Link>{' '}
-            conformément au RGPD.
-          </p>
-          <div className="cookie-buttons">
-            <button className="cookie-btn-refuse" onClick={() => handleCookie(false)} aria-label="Refuser les cookies non essentiels">
-              Refuser
-            </button>
-            <button className="cookie-btn-accept" onClick={() => handleCookie(true)} aria-label="Accepter tous les cookies">
-              Accepter
-            </button>
-          </div>
-        </div>
-      )}
+  <div
+    className="cookie-banner"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Gestion des cookies"
+    aria-live="polite"
+  >
+    {/* Icône */}
+    <div className="cookie-icon">🍪</div>
+
+    {/* Contenu */}
+    <div className="cookie-content">
+      <div className="cookie-title">Nous utilisons des cookies</div>
+      <p className="cookie-text">
+        Pour améliorer votre expérience et analyser notre trafic.
+        En continuant, vous acceptez notre{' '}
+        <Link to="/confidentialite" className="cookie-link">
+          politique de confidentialité
+        </Link>{' '}
+        conformément au RGPD.
+      </p>
+    </div>
+
+    {/* Boutons */}
+    <div className="cookie-buttons">
+      <button
+        className="cookie-btn-refuse"
+        onClick={() => handleCookie(false)}
+        aria-label="Refuser les cookies non essentiels"
+      >
+        Refuser
+      </button>
+      <button
+        className="cookie-btn-accept"
+        onClick={() => handleCookie(true)}
+        aria-label="Accepter tous les cookies"
+      >
+        ✓ Accepter
+      </button>
+    </div>
+  </div>
+)}
     </div>
   )
 }

@@ -23,7 +23,7 @@ const registerValidation = [
         .isIn(['etranger', 'resident']).withMessage('Le rôle doit être etranger ou resident'),
 ];
 
-  // Règles de validation connexion
+// Règles de validation connexion
 const loginValidation = [
     body('email')
         .notEmpty().withMessage("L'email est obligatoire")
@@ -38,7 +38,6 @@ router.post('/register', registerValidation, register);
 
 // POST /api/auth/login
 router.post('/login', loginValidation, login);
-
 
 const authMiddleware = require('../middlewares/auth.middleware');
 

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
     try {
-        // Récupérer le token dans le header
         const authHeader = req.headers['authorization'];
 
         if (!authHeader) {
@@ -12,7 +11,6 @@ const authMiddleware = (req, res, next) => {
         }
 
         // Le token arrive sous la forme "Bearer eyJhbGci..."
-        // On prend juste la partie après "Bearer "
         const token = authHeader.split(' ')[1];
 
         if (!token) {
@@ -27,7 +25,6 @@ const authMiddleware = (req, res, next) => {
         // Injecter les infos de l'utilisateur dans la requête
         req.user = decoded;
 
-        // Passer à la suite
         next();
 
     } catch (error) {

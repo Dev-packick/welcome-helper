@@ -19,10 +19,10 @@ const evalValidation = [
         .isLength({ max: 500 }).withMessage('Commentaire max 500 caractères'),
 ];
 
-// POST /api/evaluations — créer une évaluation
+// POST /api/evaluations - créer une évaluation
 router.post('/', authMiddleware, evalValidation, createEvaluation);
 
-// GET /api/evaluations/user/:id — évaluations d'un utilisateur
+// GET /api/evaluations/user/:id - évaluations d'un utilisateur
 router.get('/user/:id', getEvaluations);
 
 module.exports = router;

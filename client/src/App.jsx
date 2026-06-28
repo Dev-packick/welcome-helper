@@ -3,6 +3,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
+import Onboarding from './pages/Onboarding'
 import Profil from './pages/Profil'
 import EditProfil from './pages/EditProfil'
 import Missions from './pages/Missions'
@@ -16,7 +17,6 @@ import Admin from './pages/Admin'
 
 
 
-
 function App() {
   return (
     <BrowserRouter>
@@ -25,6 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/profil" element={<Profil />} />
         <Route path="/profil/edit" element={<EditProfil />} />
         <Route path="/missions" element={<Missions />} />

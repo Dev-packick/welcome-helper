@@ -1,18 +1,15 @@
-# Étape 1 — Build React
+# Étape 1 - Build React
 FROM node:20-alpine AS builder
 
 WORKDIR /app
-
 COPY package*.json ./
-
 RUN npm install
-
 COPY . .
 
 # Build de production
 RUN npm run build
 
-# Étape 2 — Servir avec Nginx
+# Étape 2 - Servir avec Nginx
 FROM nginx:alpine
 
 # Copier le build dans Nginx

@@ -25,7 +25,7 @@ router.delete('/users/:id', deleteUser);
 router.get('/missions', getMissionsAdmin);
 router.delete('/missions/:id', deleteMissionAdmin);
 
-// Upload logo — AVANT /:id
+// Upload logo - AVANT /:id
 router.post('/partenaires/upload-logo',
     uploadLogo.single('logo'),
     (req, res) => {
@@ -34,7 +34,7 @@ router.post('/partenaires/upload-logo',
     }
 );
 
-// Upload image récompense — AVANT /:id
+// Upload image récompense - AVANT /:id
 router.post('/recompenses/upload-image',
     uploadRecompense.single('image'),
     (req, res) => {

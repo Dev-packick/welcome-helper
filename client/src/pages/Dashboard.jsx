@@ -106,27 +106,27 @@ const Dashboard = () => {
             {/* ── STATS ── */}
             <div className="dash-stats-grid">
             <div className="dash-stat-card">
-                <div className="dash-stat-icon" style={{ background:'rgba(245,158,11,0.15)' }}>
+                {/* <div className="dash-stat-icon" style={{ background:'rgba(245,158,11,0.15)' }}>
                 ⭐
-                </div>
+                </div> */}
                 <div>
                 <p className="dash-stat-value">{stats.solde_points}</p>
                 <p className="dash-stat-label">Points gagnés</p>
                 </div>
             </div>
             <div className="dash-stat-card">
-                <div className="dash-stat-icon" style={{ background:'rgba(34,197,94,0.15)' }}>
+                {/* <div className="dash-stat-icon" style={{ background:'rgba(34,197,94,0.15)' }}>
                 🏆
-                </div>
+                </div> */}
                 <div>
                 <p className="dash-stat-value">{stats.missions_terminees}</p>
                 <p className="dash-stat-label">Missions complétées</p>
                 </div>
             </div>
             <div className="dash-stat-card">
-                <div className="dash-stat-icon" style={{ background:'rgba(59,130,246,0.15)' }}>
+                {/* <div className="dash-stat-icon" style={{ background:'rgba(59,130,246,0.15)' }}>
                 🕐
-                </div>
+                </div> */}
                 <div>
                 <p className="dash-stat-value">{user.jours_en_france}</p>
                 <p className="dash-stat-label">Jours en France</p>

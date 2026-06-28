@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════
-// TESTS UNITAIRES — fonctions pures
+// TESTS UNITAIRES - fonctions pures
 // Pas de base de données, pas de serveur
 // On teste la logique métier isolément
 // ══════════════════════════════════════════
@@ -8,46 +8,46 @@
 const isValidEmail = (email) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
-    };
+};
 
-    //  Fonction 2 : validation mot de passe
-    const isValidPassword = (password) => {
+//  Fonction 2 : validation mot de passe
+const isValidPassword = (password) => {
     return typeof password === 'string' && password.length >= 8;
-    };
+};
 
-    //  Fonction 3 : calcul points avec multiplicateur Premium
-    const calculerPoints = (pointsBase, isPremium, typeOffre) => {
+//  Fonction 3 : calcul points avec multiplicateur Premium
+const calculerPoints = (pointsBase, isPremium, typeOffre) => {
     if (!isPremium) return pointsBase;
     if (typeOffre === 'mensuel') return pointsBase * 2;
     if (typeOffre === 'trimestriel') return pointsBase * 3;
     return pointsBase;
-    };
+};
 
-    //  Fonction 4 : vérifier si une mission est urgente
-    const isMissionUrgente = (dateEcheance) => {
+//  Fonction 4 : vérifier si une mission est urgente
+const isMissionUrgente = (dateEcheance) => {
     if (!dateEcheance) return false;
     const diff = new Date(dateEcheance) - new Date();
     return diff > 0 && diff < 3 * 24 * 60 * 60 * 1000;
-    };
+};
 
-    //  Fonction 5 : générer les initiales d'un utilisateur
-    const getInitials = (prenom, nom) => {
+//  Fonction 5 : générer les initiales d'un utilisateur
+const getInitials = (prenom, nom) => {
     if (!prenom || !nom) return 'WH';
     return `${prenom[0]}${nom[0]}`.toUpperCase();
-    };
+};
 
-    //  Fonction 6 : vérifier si le solde est suffisant
-    const hasSufficientBalance = (solde, cout) => {
+//  Fonction 6 : vérifier si le solde est suffisant
+const hasSufficientBalance = (solde, cout) => {
     return typeof solde === 'number' &&
             typeof cout === 'number' &&
             solde >= cout;
-    };
+};
 
-    // ══════════════════════════════════════════
-    // TESTS
-    // ══════════════════════════════════════════
+// ══════════════════════════════════════════
+// TESTS
+// ══════════════════════════════════════════
 
-    describe('Validation email', () => {
+describe('Validation email', () => {
     test('accepte un email valide', () => {
         expect(isValidEmail('alice@test.com')).toBe(true);
     });
@@ -67,9 +67,10 @@ const isValidEmail = (email) => {
     test('refuse un email vide', () => {
         expect(isValidEmail('')).toBe(false);
     });
-    });
+});
 
-    describe('Validation mot de passe', () => {
+
+describe('Validation mot de passe', () => {
     test('accepte un mot de passe de 8 caractères', () => {
         expect(isValidPassword('password')).toBe(true);
     });
@@ -89,9 +90,10 @@ const isValidEmail = (email) => {
     test('refuse null', () => {
         expect(isValidPassword(null)).toBe(false);
     });
-    });
+});
 
-    describe('Calcul des points Premium', () => {
+
+describe('Calcul des points Premium', () => {
     test('retourne les points de base pour un utilisateur gratuit', () => {
         expect(calculerPoints(30, false, null)).toBe(30);
     });
@@ -111,9 +113,10 @@ const isValidEmail = (email) => {
     test('gère des points de base à 0', () => {
         expect(calculerPoints(0, true, 'mensuel')).toBe(0);
     });
-    });
+});
 
-    describe('Détection mission urgente', () => {
+
+describe('Détection mission urgente', () => {
     test('retourne false si pas de date', () => {
         expect(isMissionUrgente(null)).toBe(false);
         expect(isMissionUrgente(undefined)).toBe(false);
@@ -133,9 +136,10 @@ const isValidEmail = (email) => {
         const dateProcheaine = new Date(Date.now() + 1 * 86400000).toISOString();
         expect(isMissionUrgente(dateProcheaine)).toBe(true);
     });
-    });
+});
 
-    describe('Génération des initiales', () => {
+
+describe('Génération des initiales', () => {
     test('génère les initiales correctement', () => {
         expect(getInitials('Alice', 'Martin')).toBe('AM');
     });
@@ -155,9 +159,9 @@ const isValidEmail = (email) => {
     test('retourne WH si les deux manquent', () => {
         expect(getInitials(null, null)).toBe('WH');
     });
-    });
+});
 
-    describe('Vérification solde suffisant', () => {
+describe('Vérification solde suffisant', () => {
     test('retourne true si solde suffisant', () => {
         expect(hasSufficientBalance(200, 150)).toBe(true);
     });

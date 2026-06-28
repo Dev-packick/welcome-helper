@@ -3,7 +3,6 @@ const pool = require('../db/pool');
 // GET profil d'un utilisateur
 const getProfil = async (req, res) => {
     const { id } = req.params;
-
         try {
             const result = await pool.query(
             `SELECT
@@ -31,12 +30,11 @@ const getProfil = async (req, res) => {
 };
 
 
-    // PUT modifier son propre profil
-    const updateProfil = async (req, res) => {
+// PUT modifier son propre profil
+const updateProfil = async (req, res) => {
         const { id } = req.params;
         const { nom, prenom, pays_origine, universite, bio, langue } = req.body;
 
-        // Vérifier que l'utilisateur modifie son propre profil
         if (parseInt(id) !== req.user.user_id) {
             return res.status(403).json({
             message: 'Vous ne pouvez modifier que votre propre profil'
@@ -44,13 +42,11 @@ const getProfil = async (req, res) => {
         }
 
         try {
-            // Mettre à jour la table user
             await pool.query(
             `UPDATE "user" SET nom = $1, prenom = $2 WHERE user_id = $3`,
             [nom, prenom, id]
             );
 
-            // Mettre à jour la table profil
             const result = await pool.query(
             `UPDATE profil SET pays_origine = $1, universite = $2, bio = $3, langue = $4 WHERE id_user = $5`,
             [pays_origine, universite, bio, langue, id]
@@ -68,8 +64,8 @@ const getProfil = async (req, res) => {
 };
 
 
-    // GET mon propre profil (via token JWT)
-    const getMonProfil = async (req, res) => {
+// GET mon propre profil (via token JWT)
+const getMonProfil = async (req, res) => {
         try {
             const result = await pool.query(
             `SELECT
@@ -100,10 +96,8 @@ const uploadAvatar = async (req, res) => {
         return res.status(400).json({ message: 'Aucun fichier envoyé' });
         }
 
-        // Construire l'URL accessible depuis le frontend
         const avatarUrl = `/uploads/${req.file.filename}`;
 
-        // Mettre à jour avatar_url dans la table profil
         await pool.query(
         `UPDATE profil SET avatar_url = $1 WHERE id_user = $2`,
         [avatarUrl, req.user.user_id]

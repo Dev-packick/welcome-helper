@@ -142,7 +142,7 @@ const EditProfil = () => {
                             </button>
                         </div>
                         <input type="file" accept="image/jpeg,image/png,image/webp" ref={fileInputRef} onChange={handleAvatarChange} style={{ display: 'none' }}/>
-                        <p className="edit-avatar-hint">JPG, PNG ou WebP — max 2 Mo</p>
+                        <p className="edit-avatar-hint">JPG, PNG ou WebP - max 2 Mo</p>
                     </div>
 
                     {success && <div className="edit-success">{success}</div>}

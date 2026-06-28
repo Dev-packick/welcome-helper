@@ -5,9 +5,8 @@ const getDashboard = async (req, res) => {
     const role = req.user.role;
 
     try {
-        // Infos utilisateur
         const userResult = await pool.query(
-        `SELECT 
+        `SELECT
             etudiant.user_id, etudiant.nom, etudiant.prenom,
             etudiant.solde_points, etudiant.created_at, etudiant.role,
             profil.avatar_url, profil.pays_origine
@@ -18,17 +17,14 @@ const getDashboard = async (req, res) => {
         );
 
         const user = userResult.rows[0];
-
-        // Jours depuis l'arrivée
         const joursEnFrance = Math.floor(
         (new Date() - new Date(user.created_at)) / (1000 * 60 * 60 * 24)
         );
 
-        // Missions selon le rôle
         let missionsQuery;
         if (role === 'etranger') {
         missionsQuery = await pool.query(
-            `SELECT mission.*, 
+            `SELECT mission.*,
             etudiant.nom AS realisant_nom,
             etudiant.prenom AS realisant_prenom
             FROM mission

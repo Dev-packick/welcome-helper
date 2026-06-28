@@ -4,9 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../middlewares/auth.middleware');
-const { uploadAvatar } = require('../middlewares/upload.middleware');
-
-
+    const { uploadAvatar } = require('../middlewares/upload.middleware');
     const { body } = require('express-validator');
 
     // Validation pour la modification du profil
@@ -22,13 +20,13 @@ const { uploadAvatar } = require('../middlewares/upload.middleware');
         .isLength({ max: 500 }).withMessage('La bio ne peut pas dépasser 500 caractères'),
 ];
 
-// GET /api/profil/me — mon profil (protégé)
+// GET /api/profil/me - mon profil (protégé)
 router.get('/me', authMiddleware, getMonProfil);
-// GET /api/profil/:id — profil public
+// GET /api/profil/:id - profil public
 router.get('/:id', getProfil);
-// PUT /api/profil/:id — modifier son profil (protégé)
+// PUT /api/profil/:id - modifier son profil (protégé)
 router.put('/:id', authMiddleware, updateValidation, updateProfil);
-// POST /api/profil/avatar — upload avatar (protégé)
+// POST /api/profil/avatar - upload avatar (protégé)
 router.post('/avatar', authMiddleware, uploadAvatar.single('avatar'), uploadAvatarController);
 
 

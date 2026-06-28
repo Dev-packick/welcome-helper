@@ -1,7 +1,5 @@
 // ══════════════════════════════════════════
-// TESTS FONCTIONNELS — Missions
-// On teste la liste et la publication
-// de missions depuis l'interface
+// TESTS FONCTIONNELS - Missions
 // ══════════════════════════════════════════
 
 describe('Page missions publique', () => {
@@ -54,7 +52,7 @@ describe('Page missions publique', () => {
 
     it('remplit et soumet le formulaire avec succès', () => {
         cy.get('input[name="titre"]')
-        .type('Test Cypress — Aide administrative');
+        .type('Test Cypress - Aide administrative');
 
         cy.get('textarea[name="desc_mission"]')
         .type('Description de test créée par Cypress pour vérifier le formulaire.');

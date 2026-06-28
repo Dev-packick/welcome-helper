@@ -1,31 +1,26 @@
 const pool = require('../db/pool');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-// POST — Créer une session Stripe Checkout
+
+// POST - Créer une session Stripe Checkout
 const createCheckoutSession = async (req, res) => {
     const { type_offre } = req.body;
     const user_id = req.user.user_id;
 
     try {
-        // Déterminer le price_id selon l'offre
         const priceId = type_offre === 'mensuel'
         ? process.env.STRIPE_PRICE_MENSUEL
         : process.env.STRIPE_PRICE_TRIMESTRIEL;
-
         if (!priceId) {
         return res.status(400).json({ message: 'Offre invalide' });
         }
 
-
-        // Récupérer les infos de l'utilisateur
         const userResult = await pool.query(
         'SELECT * FROM "user" WHERE user_id = $1',
         [user_id]
         );
         const user = userResult.rows[0];
 
-
-        // Créer la session Stripe Checkout
         const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
@@ -50,11 +45,10 @@ const createCheckoutSession = async (req, res) => {
         console.error('Erreur createCheckoutSession:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-
-    // GET — Statut abonnement de l'utilisateur connecté
-    const getMonAbonnement = async (req, res) => {
+// GET - Statut abonnement de l'utilisateur connecté
+const getMonAbonnement = async (req, res) => {
     try {
         const result = await pool.query(
         `SELECT * FROM abonnement
@@ -63,7 +57,6 @@ const createCheckoutSession = async (req, res) => {
         LIMIT 1`,
         [req.user.user_id]
         );
-
         if (result.rows.length === 0) {
         return res.status(200).json({ abonnement: null });
         }
@@ -74,11 +67,11 @@ const createCheckoutSession = async (req, res) => {
         console.error('Erreur getMonAbonnement:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
 
-    // POST — Webhook Stripe
-    const stripeWebhook = async (req, res) => {
+// POST - Webhook Stripe
+const stripeWebhook = async (req, res) => {
     const sig = req.headers['stripe-signature'];
     let event;
 
@@ -100,7 +93,6 @@ const createCheckoutSession = async (req, res) => {
             const user_id = parseInt(session.metadata.user_id);
             const type_offre = session.metadata.type_offre;
 
-            // Calculer la date d'expiration
             const date_debut = new Date();
             const date_expiration = new Date();
             if (type_offre === 'mensuel') {
@@ -110,7 +102,6 @@ const createCheckoutSession = async (req, res) => {
             }
 
             
-            // Insérer ou mettre à jour l'abonnement
             await pool.query(
             `INSERT INTO abonnement
                 (id_user, type_offre, prix, date_debut, date_expiration, statut_paiement)

@@ -2,7 +2,7 @@ const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   e2e: {
-    // URL de base de ton application React
+    // URL de base de l'application React
     baseUrl: 'http://localhost:5173',
     // Dossier des tests
     specPattern: 'cypress/e2e/**/*.cy.js',

@@ -6,7 +6,7 @@ require('dotenv').config({
 
     const { Pool } = require('pg');
 
-    // Railway fournit DATABASE_URL — sinon on utilise les variables séparées
+    // Railway fournit DATABASE_URL - sinon on utilise les variables séparées
     const pool = process.env.DATABASE_URL
     ? new Pool({
         connectionString: process.env.DATABASE_URL,

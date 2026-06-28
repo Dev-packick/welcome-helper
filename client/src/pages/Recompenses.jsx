@@ -68,7 +68,7 @@ const Recompenses = () => {
             `/api/recompenses/${recompense.id_recomp}/echanger`, {},
             { headers: { Authorization: `Bearer ${token}` } }
         )
-        setSuccess(`🎉 "${recompense.nom_recomp}" obtenu avec succès !`)
+        setSuccess(`✅ "${recompense.nom_recomp}" obtenu avec succès !`)
         fetchRecompenses()
         fetchSoldeEtHistorique()
         } catch (err) {
@@ -122,7 +122,7 @@ const Recompenses = () => {
             {/* ── RECHERCHE ── */}
             <div className="recomp-search-row">
             <div className="missions-search-wrapper">
-                <span className="missions-search-icon">🔍</span>
+                <span className="missions-search-icon"></span>
                 <input
                 type="text"
                 placeholder="Rechercher une récompense..."

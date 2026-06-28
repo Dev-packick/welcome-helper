@@ -2,7 +2,8 @@ const pool = require('../db/pool');
 const { validationResult } = require('express-validator');
 const { creditPoints } = require('../utils/pointsService');
 
-// POST — Créer une mission
+
+// POST - Créer une mission
 const createMission = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -15,8 +16,8 @@ const createMission = async (req, res) => {
     try {
         // Vérifier la limite mensuelle pour les non-premium
         const abonnementCheck = await pool.query(
-        `SELECT * FROM abonnement 
-        WHERE id_user = $1 
+        `SELECT * FROM abonnement
+        WHERE id_user = $1
         AND statut_paiement = 'paye'
         AND date_expiration >= NOW()`,
         [id_publiant]
@@ -26,7 +27,7 @@ const createMission = async (req, res) => {
 
         if (!isPremium) {
         const missionCount = await pool.query(
-            `SELECT COUNT(*) FROM mission 
+            `SELECT COUNT(*) FROM mission
             WHERE id_publiant = $1
             AND date_publication >= date_trunc('month', NOW())`,
             [id_publiant]
@@ -41,7 +42,7 @@ const createMission = async (req, res) => {
         }
 
         const result = await pool.query(
-        `INSERT INTO mission 
+        `INSERT INTO mission
             (id_publiant, titre, desc_mission, cat_mission, points_offerts, date_echeance)
         VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING *`,
@@ -57,21 +58,22 @@ const createMission = async (req, res) => {
         console.error('Erreur createMission:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    // GET — Liste des missions avec filtres
-    const getMissions = async (req, res) => {
+
+// GET - Liste des missions avec filtres
+const getMissions = async (req, res) => {
     const { cat_mission, statut, page = 1 } = req.query;
     const limit = 10;
     const offset = (page - 1) * limit;
 
     try {
         let query = `
-        SELECT 
+        SELECT
             mission.*,
             etudiant.nom, etudiant.prenom, etudiant.is_certifie,
             profil.avatar_url, profil.pays_origine,
-            (SELECT ROUND(AVG(note), 1) FROM evaluation 
+            (SELECT ROUND(AVG(note), 1) FROM evaluation
             WHERE id_evaluer = mission.id_publiant) AS note_moyenne
         FROM mission
         JOIN "user" AS etudiant ON etudiant.user_id = mission.id_publiant
@@ -110,15 +112,16 @@ const createMission = async (req, res) => {
         console.error('Erreur getMissions:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    // GET — Détail d'une mission
-    const getMissionById = async (req, res) => {
+
+// GET - Détail d'une mission
+const getMissionById = async (req, res) => {
     const { id } = req.params;
 
     try {
         const result = await pool.query(
-        `SELECT 
+        `SELECT
             mission.*,
             etudiant.nom, etudiant.prenom, etudiant.is_certifie,
             profil.avatar_url, profil.pays_origine, profil.universite
@@ -139,10 +142,11 @@ const createMission = async (req, res) => {
         console.error('Erreur getMissionById:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    // PUT — Modifier une mission
-    const updateMission = async (req, res) => {
+
+// PUT - Modifier une mission
+const updateMission = async (req, res) => {
     const { id } = req.params;
     const { titre, desc_mission, cat_mission, points_offerts, date_echeance } = req.body;
 
@@ -169,8 +173,8 @@ const createMission = async (req, res) => {
         }
 
         const result = await pool.query(
-        `UPDATE mission 
-        SET titre=$1, desc_mission=$2, cat_mission=$3, 
+        `UPDATE mission
+        SET titre=$1, desc_mission=$2, cat_mission=$3,
             points_offerts=$4, date_echeance=$5
         WHERE id_mission=$6
         RETURNING *`,
@@ -186,12 +190,12 @@ const createMission = async (req, res) => {
         console.error('Erreur updateMission:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    // DELETE — Supprimer une mission
-    const deleteMission = async (req, res) => {
+
+// DELETE - Supprimer une mission
+const deleteMission = async (req, res) => {
     const { id } = req.params;
-
     try {
         const check = await pool.query(
         'SELECT * FROM mission WHERE id_mission = $1',
@@ -215,17 +219,17 @@ const createMission = async (req, res) => {
         }
 
         await pool.query('DELETE FROM mission WHERE id_mission = $1', [id]);
-
         res.status(200).json({ message: 'Mission supprimée avec succès' });
 
     } catch (error) {
         console.error('Erreur deleteMission:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    // POST — Accepter une mission
-    const accepterMission = async (req, res) => {
+
+// POST - Accepter une mission
+const accepterMission = async (req, res) => {
     const { id } = req.params;
     const id_realisant = req.user.user_id;
 
@@ -256,7 +260,7 @@ const createMission = async (req, res) => {
         await pool.query('BEGIN');
 
         await pool.query(
-        `UPDATE mission 
+        `UPDATE mission
         SET statut = 'en_cours', id_realisant = $1
         WHERE id_mission = $2`,
         [id_realisant, id]
@@ -282,10 +286,11 @@ const createMission = async (req, res) => {
         console.error('Erreur accepterMission:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    // POST — Terminer une mission
-    const terminerMission = async (req, res) => {
+
+// POST - Terminer une mission
+const terminerMission = async (req, res) => {
     const { id } = req.params;
     const user_id = req.user.user_id;
 
@@ -339,7 +344,7 @@ const createMission = async (req, res) => {
         console.error('Erreur terminerMission:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
     module.exports = {
     createMission,

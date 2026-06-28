@@ -13,7 +13,6 @@ const register = async (req, res) => {
     const { nom, prenom, email, password, role } = req.body;
 
     try {
-        // Vérifier si l'email existe déjà
         const emailExist = await pool.query(
         'SELECT * FROM "user" WHERE email = $1',
         [email]
@@ -25,13 +24,10 @@ const register = async (req, res) => {
         });
         }
 
-
         // Hasher le mot de passe
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
-
-        // Insérer l'utilisateur
         const newUser = await pool.query(
         `INSERT INTO "user" (nom, prenom, email, password, role)
         VALUES ($1, $2, $3, $4, $5)
@@ -41,15 +37,11 @@ const register = async (req, res) => {
 
         const user = newUser.rows[0];
 
-
-        // Créer le profil automatiquement
         await pool.query(
         'INSERT INTO profil (id_user) VALUES ($1)',
         [user.user_id]
         );
 
-
-        // Créditer 50 points de bienvenue au résident
         if (role === 'resident') {
         await pool.query(
             `UPDATE "user" SET solde_points = 50 WHERE user_id = $1`,
@@ -60,7 +52,6 @@ const register = async (req, res) => {
             [user.user_id, 'Points de bienvenue WelcomeHelper']
         );
         }
-
 
         // Générer le token JWT
         const token = jwt.sign(
@@ -85,11 +76,11 @@ const register = async (req, res) => {
         console.error('Erreur register:', error.message);
         res.status(500).json({ message: 'Erreur serveur' });
     }
-    };
+};
 
-    
-    // CONNEXION
-    const login = async (req, res) => {
+
+// CONNEXION
+const login = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
@@ -110,7 +101,6 @@ const register = async (req, res) => {
         }
 
         const user = result.rows[0];
-
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {

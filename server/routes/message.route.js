@@ -10,13 +10,13 @@ const authMiddleware = require('../middlewares/auth.middleware');
 // Toutes les routes messagerie sont protégées
 router.use(authMiddleware);
 
-// GET /api/messages — liste des conversations
+// GET /api/messages - liste des conversations
 router.get('/', getConversations);
 
-// GET /api/messages/conversations/:id — messages d'une conversation
+// GET /api/messages/conversations/:id - messages d'une conversation
 router.get('/conversations/:id', getMessages);
 
-// POST /api/messages/conversations/:id — envoyer un message
+// POST /api/messages/conversations/:id - envoyer un message
 router.post('/conversations/:id', sendMessage);
 
 module.exports = router;

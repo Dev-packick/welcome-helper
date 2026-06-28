@@ -274,7 +274,7 @@ const Admin = () => {
     }
 
     const formatDate = (dateStr) => {
-        if (!dateStr) return '—'
+        if (!dateStr) return '-'
         return new Date(dateStr).toLocaleDateString('fr-FR')
     }
 
@@ -299,10 +299,10 @@ const Admin = () => {
             {/* ── TABS ── */}
             <div className="admin-tabs">
             {[
-                { id:'stats', label:'📊 Statistiques' },
-                { id:'users', label:'👥 Utilisateurs' },
-                { id:'missions', label:'📋 Missions' },
-                { id:'partenaires', label:'🤝 Partenaires' },
+                { id:'stats', label:' Statistiques' },
+                { id:'users', label:' Utilisateurs' },
+                { id:'missions', label:' Missions' },
+                { id:'partenaires', label:' Partenaires' },
             ].map(tab => (
                 <button
                 key={tab.id}
@@ -322,9 +322,9 @@ const Admin = () => {
                     <p className="admin-stat-label">Total utilisateurs</p>
                     <p className="admin-stat-value">{stats.users.total}</p>
                     <div className="admin-stat-detail">
-                    <span>🌍 {stats.users.etrangers} étrangers</span>
-                    <span>🤝 {stats.users.residents} résidents</span>
-                    <span>✓ {stats.users.certifies} certifiés</span>
+                    <span>🟢 {stats.users.etrangers} étrangers</span>
+                    <span>🔵 {stats.users.residents} résidents</span>
+                    <span>🟢 {stats.users.certifies} certifiés</span>
                     </div>
                 </div>
                 <div className="admin-stat-card">
@@ -333,7 +333,7 @@ const Admin = () => {
                     <div className="admin-stat-detail">
                     <span>🟢 {stats.missions.ouvertes} ouvertes</span>
                     <span>🔵 {stats.missions.en_cours} en cours</span>
-                    <span>✅ {stats.missions.terminees} terminées</span>
+                    <span>🟢 {stats.missions.terminees} terminées</span>
                     </div>
                 </div>
                 <div className="admin-stat-card">
@@ -342,7 +342,7 @@ const Admin = () => {
                     {parseInt(stats.points_distribues).toLocaleString('fr-FR')}
                     </p>
                     <div className="admin-stat-detail">
-                    <span>⭐ Points créés par les missions</span>
+                    <span>Points créés par les missions</span>
                     </div>
                 </div>
                 <div className="admin-stat-card">
@@ -351,7 +351,7 @@ const Admin = () => {
                     {parseFloat(stats.revenus).toFixed(2)} €
                     </p>
                     <div className="admin-stat-detail">
-                    <span>💳 Abonnements payés</span>
+                    <span> Abonnements payés</span>
                     </div>
                 </div>
                 </div>
@@ -400,7 +400,7 @@ const Admin = () => {
                                     <span className="admin-certifie-badge">✓</span>
                                 )}
                                 </p>
-                                <p className="admin-user-pays">{u.pays_origine || '—'}</p>
+                                <p className="admin-user-pays">{u.pays_origine || '-'}</p>
                             </div>
                             </div>
                         </td>
@@ -414,7 +414,7 @@ const Admin = () => {
                             </span>
                         </td>
                         <td className="admin-td-secondary">
-                            📤 {u.missions_publiees} / 📥 {u.missions_realisees}
+                             {u.missions_publiees} /  {u.missions_realisees}
                         </td>
                         <td className="admin-td-secondary">⭐ {u.solde_points}</td>
                         <td className="admin-td-secondary">{formatDate(u.created_at)}</td>
@@ -588,7 +588,7 @@ const Admin = () => {
                             style={{ padding:'8px' }}
                         />
                         <p style={{ fontSize:'11px', color:'#475569', marginTop:'4px' }}>
-                            JPG, PNG, WebP ou SVG — max 2 Mo
+                            JPG, PNG, WebP ou SVG - max 2 Mo
                         </p>
                         </div>
                     </div>
@@ -625,14 +625,14 @@ const Admin = () => {
                             }}
                         />
                         ) : (
-                        <span style={{ fontSize:'24px' }}>🤝</span>
+                        <span style={{ fontSize:'24px' }}></span>
                         )}
                     </div>
                     <div className="admin-partenaire-info">
                         <p className="admin-partenaire-nom">{p.nom_enseigne}</p>
-                        <p className="admin-partenaire-contact">{p.contact || '—'}</p>
+                        <p className="admin-partenaire-contact">{p.contact || '-'}</p>
                         <p className="admin-partenaire-recomp">
-                        🎁 {p.nb_recompenses} récompense(s)
+                        {p.nb_recompenses} récompense(s)
                         </p>
                     </div>
                     <div className="admin-actions">
@@ -640,7 +640,7 @@ const Admin = () => {
                         className="admin-btn-recompenses"
                         onClick={() => handleSelectPartenaire(p)}
                         >
-                        🎁 Récompenses
+                        Récompenses
                         </button>
                         <button
                         className="admin-btn-certifier"
@@ -664,7 +664,7 @@ const Admin = () => {
                 <div className="admin-recomp-panel">
                     <div className="admin-recomp-panel-head">
                     <h3 className="admin-recomp-panel-title">
-                        🎁 Récompenses — {selectedPartenaire.nom_enseigne}
+                        🎁 Récompenses - {selectedPartenaire.nom_enseigne}
                     </h3>
                     <div style={{ display:'flex', gap:'10px' }}>
                         <button
@@ -791,7 +791,7 @@ const Admin = () => {
                                 style={{ padding:'8px' }}
                             />
                             <p style={{ fontSize:'11px', color:'#475569', marginTop:'4px' }}>
-                                JPG, PNG ou WebP — max 2 Mo
+                                JPG, PNG ou WebP - max 2 Mo
                             </p>
                             </div>
                         </div>
@@ -851,7 +851,7 @@ const Admin = () => {
                                 <p className="admin-td-secondary">{r.desc_recomp}</p>
                                 </td>
                                 <td>
-                                <span className="recomp-cat">{r.cat_partenaire || '—'}</span>
+                                <span className="recomp-cat">{r.cat_partenaire || '-'}</span>
                                 </td>
                                 <td className="admin-td-secondary">⭐ {r.cout_en_points}</td>
                                 <td>
